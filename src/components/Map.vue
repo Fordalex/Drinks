@@ -65,7 +65,6 @@ export default defineComponent({
       this.map.fitBounds(bounds)
       console.log('[MapComponent] Map viewport adjusted to fit all pins')
     } catch (error) {
-      this.error = 'Error loading Google Maps: ' + error.message
       console.error('[MapComponent]', this.error)
     }
   },
