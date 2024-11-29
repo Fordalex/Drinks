@@ -6,7 +6,6 @@ export default defineComponent({
 })
 </script>
 
-
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
@@ -14,7 +13,6 @@ export default defineComponent({
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/distilleries">Distilleries</RouterLink>
       </nav>
     </div>

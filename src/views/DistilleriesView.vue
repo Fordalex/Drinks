@@ -1,21 +1,35 @@
-<script setup lang="ts">
+<script lang="ts">
+import { defineComponent } from 'vue'
 import Distillery from '../components/Distillery.vue'
-import { ref, onMounted } from 'vue'
 
-const spirits = ref([])
-
-onMounted(async () => {
-  try {
-    const response = await fetch(
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(
-        'https://api.fordsdevelopment.co.uk/distilleries',
-      )}`,
-    )
-    console.log(response)
-    spirits.value = await response.json()
-  } catch (error) {
-    console.error('Error fetching spirits:', error)
-  }
+export default defineComponent({
+  name: 'App',
+  components: {
+    Distillery,
+  },
+  data() {
+    return {
+      spirits: [] as Array<any>, // Define the state for spirits
+    }
+  },
+  mounted() {
+    this.fetchDistilleries()
+  },
+  methods: {
+    async fetchDistilleries() {
+      try {
+        const response = await fetch(
+          `https://api.allorigins.win/raw?url=${encodeURIComponent(
+            'https://api.fordsdevelopment.co.uk/distilleries'
+          )}`
+        )
+        console.log(response)
+        this.spirits = await response.json()
+      } catch (error) {
+        console.error('Error fetching distilleries:', error)
+      }
+    },
+  },
 })
 </script>
 
