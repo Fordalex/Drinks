@@ -1,5 +1,4 @@
 <script lang="ts">
-import { Hash } from 'crypto'
 import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -7,7 +6,7 @@ export default defineComponent({
   name: 'App',
   data () {
     return {
-      distillery: {},
+      distillery: {} as any,
     }
   },
   mounted() {
@@ -35,7 +34,7 @@ export default defineComponent({
 
 <template>
   <main>
-    <div v-if="distillery.id" class="row m-0 g-2 p-2">
+    <div v-if="distillery?.id" class="row m-0 g-2 p-2">
       {{ distillery }}
     </div>
     <p v-else>Loading distillery...</p>

@@ -37,7 +37,7 @@ export default defineComponent({
         </div>
       </div>
 
-      <a :href="distilleryLink" target="_blank" class="button">More</a>
+      <a :href="distilleryLink" class="button">More</a>
     </div>
   </div>
 </template>

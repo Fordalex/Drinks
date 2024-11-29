@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
+import Rating from './Rating.vue'
 
 export default defineComponent({
   name: 'Spirit',
@@ -8,7 +9,10 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-  }
+  },
+  components: {
+    Rating,
+  },
 })
 </script>
 
@@ -26,6 +30,8 @@ export default defineComponent({
             <br /><br />
 
             <p class="whisky-info"><b>Distillery:</b> {{ spirit.distillery?.name }}<br /></p>
+            {{ spirit.rating }}
+            <p class="whisky-info"><b>Rating:</b><Rating :number="spirit.rating"/><br /></p>
             <p class="whisky-info"><b>Type:</b> {{ spirit.type }}<br /></p>
             <p class="whisky-info"><b>Price:</b> £{{ spirit.price }}.00<br /></p>
             <p class="whisky-info"><b>Flavour:</b> {{ spirit.flavour }}<br /></p>
