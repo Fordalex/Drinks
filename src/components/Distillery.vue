@@ -8,7 +8,12 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-  }
+  },
+  computed: {
+    distilleryLink(): string {
+      return `/Drinks/distilleries/${this.spirit.id}`
+    },
+  },
 })
 </script>
 
@@ -32,7 +37,7 @@ export default defineComponent({
         </div>
       </div>
 
-      <a :href="spirit.link" target="_blank" class="button">More</a>
+      <a :href="distilleryLink" target="_blank" class="button">More</a>
     </div>
   </div>
 </template>

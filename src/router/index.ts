@@ -13,6 +13,11 @@ const router = createRouter({
       path: '/distilleries',
       name: 'distilleries',
       component: () => import('../views/DistilleriesView.vue'),
+    },
+    {
+      path: '/distilleries/:id',
+      name: 'distillery',
+      component: () => import('../views/DistilleryView.vue'),
     }
   ],
 })

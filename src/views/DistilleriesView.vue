@@ -9,7 +9,7 @@ export default defineComponent({
   },
   data() {
     return {
-      spirits: [] as Array<any>, // Define the state for spirits
+      distilleries: [] as Array<any>, // Define the state for distilleries
     }
   },
   mounted() {
@@ -24,7 +24,7 @@ export default defineComponent({
           )}`
         )
         console.log(response)
-        this.spirits = await response.json()
+        this.distilleries = await response.json()
       } catch (error) {
         console.error('Error fetching distilleries:', error)
       }
@@ -35,9 +35,9 @@ export default defineComponent({
 
 <template>
   <main>
-    <div v-if="spirits.length > 0" class="row m-0 g-2 p-2">
-      <Distillery v-for="(spirit, index) in spirits" :key="index" :spirit="spirit" />
+    <div v-if="distilleries.length > 0" class="row m-0 g-2 p-2">
+      <Distillery v-for="(spirit, index) in distilleries" :key="index" :spirit="spirit" />
     </div>
-    <p v-else>Loading spirits...</p>
+    <p v-else>Loading distilleries...</p>
   </main>
 </template>
