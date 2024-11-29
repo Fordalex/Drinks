@@ -11,6 +11,11 @@ npm run dev
 Settings > Actions > General > Workflow permissions 
 Read and write permissions.
 
+Settings > Pages > gh-pages
+
+Update the base path in `vite.config.ts`
+
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).

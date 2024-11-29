@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'Spirit',
+  name: 'Distillery',
   props: {
     spirit: {
       type: Object,
@@ -21,16 +21,9 @@ export default defineComponent({
           <p class="whisky-description">{{ spirit.description }}</p>
           <div class="whisky-details">
             <p class="whisky-location">{{ spirit.country?.name }} - {{ spirit.region?.name }}</p>
-
             <br />
-            <br /><br />
 
             <p class="whisky-info"><b>Distillery:</b> {{ spirit.distillery?.name }}<br /></p>
-            <p class="whisky-info"><b>Type:</b> {{ spirit.type }}<br /></p>
-            <p class="whisky-info"><b>Price:</b> £{{ spirit.price }}.00<br /></p>
-            <p class="whisky-info"><b>Flavour:</b> {{ spirit.flavour }}<br /></p>
-            <p class="whisky-info"><b>Brand:</b> {{ spirit.brand }}<br /></p>
-            <p class="whisky-info"><b>Cask:</b> {{ spirit.cask }}<br /></p>
           </div>
         </div>
 
@@ -39,9 +32,7 @@ export default defineComponent({
         </div>
       </div>
 
-      <p class="whisky-review"><strong>Review:</strong> {{ spirit.review }}</p>
-
-      <a :href="spirit.link" target="_blank" class="button">Info</a>
+      <a :href="spirit.link" target="_blank" class="button">More</a>
     </div>
   </div>
 </template>
