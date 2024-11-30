@@ -11,7 +11,7 @@ export default defineComponent({
   },
   computed: {
     distilleryLink(): string {
-      return `/Drinks/distilleries/${this.spirit.id}`
+      return `/Drinks/#/distilleries/${this.spirit.id}`
     },
   },
 })

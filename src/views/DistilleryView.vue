@@ -8,6 +8,7 @@ export default defineComponent({
   data () {
     return {
       distillery: {} as any,
+      pins: [] as Array<any>,
     }
   },
   components: {
@@ -37,6 +38,7 @@ export default defineComponent({
 </script>
 
 <template>
+  <Map :pins="pins" />
   <main>
     <div v-if="distillery?.id" class="row m-0 g-2 p-2">
       <h1>{{ distillery.name }}</h1>
