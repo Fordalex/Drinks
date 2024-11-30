@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
+import Spirit from '../components/Spirit.vue'
 
 export default defineComponent({
   name: 'App',
@@ -8,6 +9,9 @@ export default defineComponent({
     return {
       distillery: {} as any,
     }
+  },
+  components: {
+    Spirit,
   },
   mounted() {
     this.fetchDistillery()
@@ -35,8 +39,13 @@ export default defineComponent({
 <template>
   <main>
     <div v-if="distillery?.id" class="row m-0 g-2 p-2">
-      {{ distillery }}
+      <h1>{{ distillery.name }}</h1>
+      <img :src="distillery.image_link" :alt="distillery.name" class="whisky-image" />
     </div>
     <p v-else>Loading distillery...</p>
+    <div v-if="distillery.spirits?.length > 0" class="row m-0 g-2 p-2">
+      <Spirit v-for="(spirit, index) in distillery.spirits" :key="index" :spirit="spirit" />
+    </div>
+    <p v-else>Loading spirits...</p>
   </main>
 </template>
