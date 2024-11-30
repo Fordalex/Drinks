@@ -53,7 +53,7 @@ export default defineComponent({
 .rating {
   display: flex;
   align-items: center;
-  font-size: 24px; /* Adjust size as needed */
+  font-size: 20px; /* Adjust size as needed */
 }
 
 .full-star {
@@ -65,6 +65,6 @@ export default defineComponent({
 }
 
 .empty-star {
-  color: lightgray;
+  color: rgb(239, 239, 239);
 }
 </style>

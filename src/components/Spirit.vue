@@ -13,6 +13,11 @@ export default defineComponent({
   components: {
     Rating,
   },
+  methods: {
+    distilleries(distilleries: any[]) {
+      return distilleries.map((distillery) => distillery.name).join(', ')
+    },
+  },
 })
 </script>
 
@@ -28,15 +33,6 @@ export default defineComponent({
 
             <br />
             <br /><br />
-
-            <p class="whisky-info"><b>Distillery:</b> {{ spirit.distillery?.name }}<br /></p>
-            {{ spirit.rating }}
-            <p class="whisky-info"><b>Rating:</b><Rating :number="spirit.rating"/><br /></p>
-            <p class="whisky-info"><b>Type:</b> {{ spirit.type }}<br /></p>
-            <p class="whisky-info"><b>Price:</b> £{{ spirit.price }}.00<br /></p>
-            <p class="whisky-info"><b>Flavour:</b> {{ spirit.flavour }}<br /></p>
-            <p class="whisky-info"><b>Brand:</b> {{ spirit.brand }}<br /></p>
-            <p class="whisky-info"><b>Cask:</b> {{ spirit.cask }}<br /></p>
           </div>
         </div>
 
@@ -44,6 +40,14 @@ export default defineComponent({
           <img :src="spirit.image" :alt="spirit.name" class="whisky-image" />
         </div>
       </div>
+
+      <p class="whisky-info"><b>Distilleries:</b> {{ distilleries(spirit.distilleries) }}</p>
+      <p class="whisky-info"><b>Rating:</b><Rating :number="spirit.rating"/></p>
+      <p class="whisky-info"><b>Type:</b> {{ spirit.type }}</p>
+      <p class="whisky-info"><b>Price:</b> £{{ spirit.price }}.00</p>
+      <p class="whisky-info"><b>Flavour:</b> {{ spirit.flavour }}</p>
+      <p class="whisky-info"><b>Brand:</b> {{ spirit.brand }}</p>
+      <p class="whisky-info"><b>Cask:</b> {{ spirit.cask }}</p>
 
       <p class="whisky-review"><strong>Review:</strong> {{ spirit.review }}</p>
 
