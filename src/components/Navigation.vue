@@ -7,16 +7,32 @@ export default defineComponent({
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/distilleries">Distilleries</RouterLink>
-        <RouterLink to="/brands">Brands</RouterLink>
-        <RouterLink to="/companies">Companies</RouterLink>
-      </nav>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary m-0">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/">Drinks</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/distilleries">Distilleries</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/brands">Brands</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/companies">Companies</RouterLink>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
     </div>
-  </header>
+  </nav>
 </template>
