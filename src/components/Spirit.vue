@@ -12,12 +12,7 @@ export default defineComponent({
   },
   components: {
     Rating,
-  },
-  methods: {
-    distilleries(distilleries: any[]) {
-      return distilleries.map((distillery) => distillery.name).join(', ')
-    },
-  },
+  }
 })
 </script>
 
@@ -41,7 +36,10 @@ export default defineComponent({
         </div>
       </div>
 
-      <p class="whisky-info"><b>Distilleries:</b> {{ distilleries(spirit.distilleries) }}</p>
+      <p class="whisky-info"><b>Distilleries:</b> </p>
+      <li v-for="distillery in spirit.distilleries" :key="distillery.id">
+        <a :href="`/Drinks/distilleries/${distillery.id}`">{{ distillery.name }}</a>
+      </li>
       <p class="whisky-info"><b>Rating:</b><Rating :number="spirit.rating"/></p>
       <p class="whisky-info"><b>Type:</b> {{ spirit.type }}</p>
       <p class="whisky-info"><b>Price:</b> £{{ spirit.price }}.00</p>

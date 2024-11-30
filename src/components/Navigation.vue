@@ -14,6 +14,8 @@ export default defineComponent({
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/distilleries">Distilleries</RouterLink>
+        <RouterLink to="/brands">Brands</RouterLink>
+        <RouterLink to="/companies">Companies</RouterLink>
       </nav>
     </div>
   </header>
