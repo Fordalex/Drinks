@@ -10,6 +10,7 @@ export default defineComponent({
   data() {
     return {
       brands: [] as Array<any>,
+      pins: [] as Array<any>,
     }
   },
   mounted() {
