@@ -33,7 +33,7 @@ export default defineComponent({
         </div>
 
         <div class="col-4">
-          <img :src="spirit.image" :alt="spirit.name" class="whisky-image" />
+          <img :src="spirit?.image_link" :alt="spirit.name" class="whisky-image" />
         </div>
       </div>
 
