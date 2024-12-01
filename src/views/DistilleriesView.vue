@@ -3,6 +3,12 @@ import { defineComponent } from 'vue'
 import Distillery from '../components/Distillery.vue'
 import Map from '../components/Map.vue'
 
+interface Pin {
+  lat: number
+  lng: number
+  body: string
+}
+
 export default defineComponent({
   name: 'App',
   components: {
@@ -12,7 +18,7 @@ export default defineComponent({
   data() {
     return {
       distilleries: [] as Array<any>, // Define the state for distilleries
-      pins: [],
+      pins: [] as Array<Pin>, // Define the state for pins
     }
   },
   mounted() {
