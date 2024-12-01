@@ -21,8 +21,8 @@ export default defineComponent({
       try {
         const response = await fetch(
           `https://api.allorigins.win/raw?url=${encodeURIComponent(
-            'https://api.fordsdevelopment.co.uk/brands'
-          )}`
+            'https://api.fordsdevelopment.co.uk/brands',
+          )}`,
         )
         this.brands = await response.json()
       } catch (error) {

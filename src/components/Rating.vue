@@ -33,11 +33,7 @@ export default defineComponent({
     />
 
     <!-- Half Star -->
-    <font-awesome-icon
-      v-if="stars.halfStar"
-      icon="star-half-alt"
-      class="half-star"
-    />
+    <font-awesome-icon v-if="stars.halfStar" icon="star-half-alt" class="half-star" />
 
     <!-- Empty Stars -->
     <font-awesome-icon
