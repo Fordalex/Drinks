@@ -1,16 +1,19 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
+import GetPassword from './components/GetPassword.vue'
 import Navigation from './components/Navigation.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     Navigation,
+    GetPassword,
   },
 })
 </script>
 
 <template>
+  <GetPassword />
   <Navigation />
   <RouterView />
 </template>

@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { usePasswordStore } from "@/stores/passwordStore";
 import Spirit from '../components/Spirit.vue'
 import Map from '../components/Map.vue'
 
@@ -25,9 +26,10 @@ export default defineComponent({
   methods: {
     async fetchSpirits() {
       try {
+        const passwordStore = usePasswordStore();
         const response = await fetch(
           `https://api.allorigins.win/raw?url=${encodeURIComponent(
-            'https://api.fordsdevelopment.co.uk/spirits',
+            `https://api.fordsdevelopment.co.uk/drinks/spirits?password=${passwordStore.password}`,
           )}`,
         )
         this.spirits = await response.json()
