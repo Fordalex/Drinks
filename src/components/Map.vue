@@ -6,7 +6,7 @@ export default defineComponent({
   name: 'MapComponent',
   props: {
     pins: {
-      type: Array as () => Array<{ lat: number; lng: number }>,
+      type: Array as () => Array<{ lat: number; lng: number; body: any }>,
       required: false,
       default: () => [], // Default to an empty array if not provided
     },
@@ -31,16 +31,18 @@ export default defineComponent({
     const loader = new Loader({
       apiKey: 'AIzaSyCwsi3cP6XFyaEj7aQRkhE3eLSWFM_tS2Q', // Replace with your actual API key
       version: 'weekly',
+      libraries: ['maps', 'marker'],
     })
 
     try {
       console.log('[MapComponent] Loading Google Maps library...')
-      await loader.importLibrary('maps')
+      await loader.load()
       console.log('[MapComponent] Google Maps library loaded successfully')
 
       this.map = new google.maps.Map(mapElement, {
         center: { lat: 0, lng: 0 },
-        zoom: 2,
+        zoom: 6,
+        mapId: 'DEMO_MAP_ID', // Replace with your actual map ID
       })
       console.log('[MapComponent] Google Map initialized:', this.map)
 
@@ -52,7 +54,7 @@ export default defineComponent({
     }
   },
   methods: {
-    updateMapMarkers(pins: Array<{ lat: number; lng: number }>) {
+    updateMapMarkers(pins: Array<{ lat: number; lng: number; body: any }>) {
       if (!this.map) return
 
       console.log('[MapComponent] Updating map markers')
@@ -67,11 +69,22 @@ export default defineComponent({
 
       // Add new markers and extend bounds
       pins.forEach((pin) => {
+        const infoWindow = new google.maps.InfoWindow({
+          content: pin.body || 'No additional information',
+        })
         console.log(`[MapComponent] Adding marker at: (${pin.lat}, ${pin.lng})`)
         const marker = new google.maps.Marker({
           position: { lat: pin.lat, lng: pin.lng },
           map: this.map,
+          icon: {
+            url: 'icons8-factory-100.png',
+            scaledSize: new google.maps.Size(40, 40),
+          }
         })
+        marker.addListener('click', () => {
+          infoWindow.open(this.map, marker)
+        })
+
         this.markers.push(marker)
 
         // Extend bounds only if the pin has valid coordinates

@@ -40,7 +40,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <Map :pins="pins" />
   <main>
     <div v-if="spirits.length > 0" class="row m-0 g-2 p-2">
       <Spirit v-for="(spirit, index) in spirits" :key="index" :spirit="spirit" />

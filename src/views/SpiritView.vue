@@ -26,7 +26,7 @@ export default defineComponent({
       try {
         const response = await fetch(
           `https://api.allorigins.win/raw?url=${encodeURIComponent(
-            `https://api.fordsdevelopment.co.uk/distilleries/${id}`,
+            `https://api.fordsdevelopment.co.uk/spirits/${id}`,
           )}`,
         )
         this.distillery = await response.json();
@@ -34,7 +34,8 @@ export default defineComponent({
           this.pins = [{
             lat: parseFloat(this.distillery.lat),
             lng: parseFloat(this.distillery.lng),
-            body: `<h1>${this.distillery.name}</h1>`
+            body: `<h1>${this.distillery.name}</h1>
+            `
           }]
         }
       } catch (error) {

@@ -34,7 +34,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <Map :pins="pins" />
   <main>
     <div v-if="brands.length > 0" class="row m-0 g-2 p-2">
       <div v-for="(brand, index) in brands" :key="index">{{ brand.name }}</div>

@@ -36,6 +36,19 @@ export default defineComponent({
           .map((distillery: any) => ({
             lat: parseFloat(distillery.lat),
             lng: parseFloat(distillery.lng),
+            body: `<h4>${distillery.name}</h4>
+                  <ul>
+                    ${distillery.spirits
+                      .map(
+                        (spirit: any) => `
+                      <li>
+                        <a href="/Drinks/#/spirits/${spirit.id}">${spirit.name}</a>
+                      </li>
+                    `,
+                      )
+                      .join('')}
+                  </ul>
+            `,
           }))
       } catch (error) {
         console.error('Error fetching distilleries:', error)
