@@ -30,7 +30,7 @@
           <v-list-item-title>Brands</v-list-item-title>
         </v-list-item>
         <v-list-item router to="/companies" @click="drawer = false">
-          <v-list-item-title>Companies</v-list-item-title>
+          <v-list-item-title>Compan</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -52,7 +52,3 @@ export default {
   },
 }
 </script>
-
-<style>
-/* Optional: Add custom styling if necessary */
-</style>

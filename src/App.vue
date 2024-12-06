@@ -15,7 +15,6 @@ export default defineComponent({
 <template>
   <GetPassword />
   <Navigation />
-  <RouterView />
 </template>
 
 <style scoped>
