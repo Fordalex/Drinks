@@ -45,7 +45,7 @@ export default defineComponent({
   <v-container>
     <v-row>
       <v-col cols="12" sm="4" v-for="(spirit, index) in spirits" :key="index" :spirit="spirit">
-        <v-card :disabled="loading" :loading="loading">
+        <v-card>
           <template v-slot:loader="{ isActive }">
             <v-progress-linear
               :active="isActive"
@@ -87,7 +87,7 @@ export default defineComponent({
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="deep-purple-lighten-2" text="More" block border @click="reserve"></v-btn>
+            <v-btn color="deep-purple-lighten-2" text="More" block border></v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

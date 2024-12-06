@@ -1,3 +1,16 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'Navigation',
+  data() {
+    return {
+      drawer: false as boolean,
+    }
+  },
+})
+</script>
+
 <template>
   <v-app>
     <!-- App Bar -->
@@ -6,10 +19,10 @@
       <v-spacer></v-spacer>
       <!-- Desktop Links (hidden on mobile) -->
       <div class="d-none d-md-flex">
-        <v-btn text router to="/">Home</v-btn>
-        <v-btn text router to="/distilleries">Distilleries</v-btn>
-        <v-btn text router to="/brands">Brands</v-btn>
-        <v-btn text router to="/companies">Companies</v-btn>
+        <v-btn router to="/">Home</v-btn>
+        <v-btn router to="/distilleries">Distilleries</v-btn>
+        <v-btn router to="/brands">Brands</v-btn>
+        <v-btn router to="/companies">Companies</v-btn>
       </div>
       <!-- Mobile Drawer Toggle (hidden on desktop) -->
       <v-btn icon @click="drawer = !drawer" class="d-flex d-md-none">
@@ -41,14 +54,3 @@
     </v-main>
   </v-app>
 </template>
-
-<script>
-export default {
-  name: 'App',
-  data() {
-    return {
-      drawer: false, // Controls the mobile drawer visibility
-    }
-  },
-}
-</script>

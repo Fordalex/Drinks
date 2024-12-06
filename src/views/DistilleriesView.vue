@@ -74,7 +74,13 @@ export default defineComponent({
     <div v-if="distilleries.length > 0" class="row m-0 g-2 p-2">
       <v-container>
         <v-row>
-          <v-col cols="12" sm="4" v-for="(distillery, index) in distilleries" :key="index" :distillery="distillery">
+          <v-col
+            cols="12"
+            sm="4"
+            v-for="(distillery, index) in distilleries"
+            :key="index"
+            :distillery="distillery"
+          >
             <Distillery :distillery="distillery" />
           </v-col>
         </v-row>
