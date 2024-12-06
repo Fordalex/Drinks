@@ -1,18 +1,18 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-export const usePasswordStore = defineStore("password", {
+export const usePasswordStore = defineStore('password', {
   state: () => ({
-    password: localStorage.getItem("password") || null,
+    password: localStorage.getItem('password') || null,
   }),
   getters: {
     isPasswordSet(state): boolean {
-      return !!state.password;
+      return !!state.password
     },
   },
   actions: {
     setPassword(password: string): void {
-      this.password = password;
-      localStorage.setItem("password", password);
+      this.password = password
+      localStorage.setItem('password', password)
     },
   },
-});
+})

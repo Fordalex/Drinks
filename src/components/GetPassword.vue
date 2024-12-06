@@ -1,26 +1,26 @@
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { usePasswordStore } from "@/stores/passwordStore";
+import { defineComponent, ref } from 'vue'
+import { usePasswordStore } from '@/stores/passwordStore'
 
 export default defineComponent({
-  name: "PasswordInput",
+  name: 'PasswordInput',
   setup() {
-    const passwordStore = usePasswordStore();
-    const password = ref<string>("");
+    const passwordStore = usePasswordStore()
+    const password = ref<string>('')
 
     const storePassword = (): void => {
       if (password.value) {
-        passwordStore.setPassword(password.value);
+        passwordStore.setPassword(password.value)
       }
-    };
+    }
 
     return {
       password,
       isPasswordSet: passwordStore.isPasswordSet,
       storePassword,
-    };
+    }
   },
-});
+})
 </script>
 
 <template>

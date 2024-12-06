@@ -1,46 +1,58 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<template>
+  <v-app>
+    <!-- App Bar -->
+    <v-app-bar app>
+      <v-toolbar-title>My App</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <!-- Desktop Links (hidden on mobile) -->
+      <div class="d-none d-md-flex">
+        <v-btn text router to="/">Home</v-btn>
+        <v-btn text router to="/distilleries">Distilleries</v-btn>
+        <v-btn text router to="/brands">Brands</v-btn>
+        <v-btn text router to="/companies">Companies</v-btn>
+      </div>
+      <!-- Mobile Drawer Toggle (hidden on desktop) -->
+      <v-btn icon @click="drawer = !drawer" class="d-flex d-md-none">
+        <v-icon>mdi-menu</v-icon>
+      </v-btn>
+    </v-app-bar>
 
-export default defineComponent({
-  name: 'Navigation',
-})
+    <!-- Mobile Drawer -->
+    <v-navigation-drawer v-model="drawer" app class="d-flex d-md-none">
+      <v-list>
+        <v-list-item router to="/" @click="drawer = false">
+          <v-list-item-title>Home</v-list-item-title>
+        </v-list-item>
+        <v-list-item router to="/distilleries" @click="drawer = false">
+          <v-list-item-title>Distilleries</v-list-item-title>
+        </v-list-item>
+        <v-list-item router to="/brands" @click="drawer = false">
+          <v-list-item-title>Brands</v-list-item-title>
+        </v-list-item>
+        <v-list-item router to="/companies" @click="drawer = false">
+          <v-list-item-title>Companies</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <!-- Main Content -->
+    <v-main class="bg-light-grey">
+      <router-view />
+    </v-main>
+  </v-app>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      drawer: false, // Controls the mobile drawer visibility
+    }
+  },
+}
 </script>
 
-<template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary m-0">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/">Drinks</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/distilleries">Distilleries</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/brands">Brands</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink class="nav-link" to="/companies">Companies</RouterLink>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </nav>
-</template>
+<style>
+/* Optional: Add custom styling if necessary */
+</style>

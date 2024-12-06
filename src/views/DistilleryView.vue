@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
-import { usePasswordStore } from "@/stores/passwordStore";
+import { usePasswordStore } from '@/stores/passwordStore'
 import Spirit from '../components/Spirit.vue'
 import Map from '../components/Map.vue'
 
@@ -22,22 +22,24 @@ export default defineComponent({
   },
   methods: {
     async fetchDistillery() {
-      const route = useRoute();
-      const id = route.params.id;
-      const passwordStore = usePasswordStore();
+      const route = useRoute()
+      const id = route.params.id
+      const passwordStore = usePasswordStore()
       try {
         const response = await fetch(
           `https://api.allorigins.win/raw?url=${encodeURIComponent(
             `https://api.fordsdevelopment.co.uk/drinks/distilleries/${id}?password=${passwordStore.password}`,
           )}`,
         )
-        this.distillery = await response.json();
+        this.distillery = await response.json()
         if (this.distillery.lat) {
-          this.pins = [{
-            lat: parseFloat(this.distillery.lat),
-            lng: parseFloat(this.distillery.lng),
-            body: `<h1>${this.distillery.name}</h1>`
-          }]
+          this.pins = [
+            {
+              lat: parseFloat(this.distillery.lat),
+              lng: parseFloat(this.distillery.lng),
+              body: `<h1>${this.distillery.name}</h1>`,
+            },
+          ]
         }
       } catch (error) {
         console.error('Error fetching distillery:', error)

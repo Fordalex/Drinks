@@ -13,9 +13,9 @@ export default defineComponent({
   },
   data() {
     return {
-      map: null as google.maps.Map | null,    // Google Maps instance
-      markers: [] as google.maps.Marker[],   // Keep track of markers
-      error: null as string | null,          // Error messages for debugging
+      map: null as google.maps.Map | null, // Google Maps instance
+      markers: [] as google.maps.Marker[], // Keep track of markers
+      error: null as string | null, // Error messages for debugging
     }
   },
   async mounted() {
@@ -60,7 +60,7 @@ export default defineComponent({
       console.log('[MapComponent] Updating map markers')
 
       // Remove existing markers
-      this.markers.forEach(marker => marker.setMap(null))
+      this.markers.forEach((marker) => marker.setMap(null))
       this.markers = []
 
       // Create a LatLngBounds object
@@ -79,7 +79,7 @@ export default defineComponent({
           icon: {
             url: 'icons8-factory-100.png',
             scaledSize: new google.maps.Size(40, 40),
-          }
+          },
         })
         marker.addListener('click', () => {
           infoWindow.open(this.map, marker)
@@ -101,7 +101,7 @@ export default defineComponent({
       } else {
         console.warn('[MapComponent] No valid pins to fit bounds')
         this.map.setCenter({ lat: 0, lng: 0 }) // Default center
-        this.map.setZoom(2)                   // Default zoom
+        this.map.setZoom(2) // Default zoom
       }
     },
   },
@@ -112,7 +112,7 @@ export default defineComponent({
         this.updateMapMarkers(newPins)
       },
       immediate: true, // Trigger the watcher immediately after the component is created
-      deep: true,      // If `pins` contains nested objects, deep watching ensures updates
+      deep: true, // If `pins` contains nested objects, deep watching ensures updates
     },
   },
 })
