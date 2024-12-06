@@ -55,7 +55,9 @@ export default defineComponent({
             ></v-progress-linear>
           </template>
 
-          <v-img height="250" :src="spirit.image" cover></v-img>
+          <div class="image-container">
+            <v-img height="250" :src="spirit.image" contain></v-img>
+          </div>
 
           <v-card-item>
             <v-card-title>{{ spirit.name }}</v-card-title>
