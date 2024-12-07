@@ -25,10 +25,10 @@ app.use(router)
 app.use(vuetify)
 app.use(
   createAuth0({
-    domain: 'dev-n2zhod4kjh1i0uee.us.auth0.com',
-    clientId: 'lQymiZduIdaEjZacgbwdT5x3kgBMJIQN',
+    domain: import.meta.env.VITE_AUTH0_DOMAIN,
+    clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
     authorizationParams: {
-      redirect_uri: 'http://localhost:5173/Drinks/'
+      redirect_uri: import.meta.env.VITE_AUTH0_REDIRECT_URI
     }
   })
 );
