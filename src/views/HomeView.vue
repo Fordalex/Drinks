@@ -1,14 +1,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { usePasswordStore } from '@/stores/passwordStore'
+import { useAuth0 } from '@auth0/auth0-vue';
 import Spirit from '../components/Spirit.vue'
 import Map from '../components/Map.vue'
+import User from '../components/User.vue'
 
 export default defineComponent({
   name: 'HomeView',
   components: {
     Spirit,
     Map,
+    User,
   },
   data() {
     return {
@@ -38,10 +41,17 @@ export default defineComponent({
       }
     },
   },
+  setup() {
+    const { user } = useAuth0()
+    return { user }
+  }
 })
 </script>
 
 <template>
+  <!-- <br><br><br>
+  <br><br><br>
+  {{  user  }} -->
   <v-container>
     <v-row>
       <v-col cols="12" sm="4" v-for="(spirit, index) in spirits" :key="index" :spirit="spirit">
