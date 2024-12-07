@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
+import { useAccessTokenStore } from '@/stores/accessTokenStore';
 
 export default defineComponent({
   name: 'Avatar',
@@ -19,8 +20,30 @@ export default defineComponent({
     },
   },
   setup() {
-    const { logout } = useAuth0();
-    return { logout };
+    const { logout, user } = useAuth0();
+
+    const accessTokenStore = useAccessTokenStore();
+
+    const logoutAndClearState = async () => {
+      // Clear local Pinia state
+      accessTokenStore.$reset();
+      accessTokenStore.clearState();
+
+      // Clear browser's localStorage or cookies if used
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // Perform Auth0 logout
+      await logout();
+    };
+
+    const clearState = () => {
+      accessTokenStore.clearState();
+      console.log('cliecked')
+    }
+
+
+    return { logout, user, logoutAndClearState, clearState };
   }
 })
 </script>
@@ -61,7 +84,7 @@ export default defineComponent({
               <v-btn
                 variant="text"
                 rounded
-                @click="logout"
+                @click="logoutAndClearState"
               >
                 Logout
               </v-btn>

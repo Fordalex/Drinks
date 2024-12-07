@@ -19,10 +19,17 @@ export default defineComponent({
 
     const accessTokenStore = useAccessTokenStore();
 
-    const logoutAndClearState = () => {
+    const logoutAndClearState = async () => {
+      // Clear local Pinia state
       accessTokenStore.$reset();
+      accessTokenStore.clearState();
 
-      logout();
+      // Clear browser's localStorage or cookies if used
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // Perform Auth0 logout
+      await logout();
     };
 
     return { logout, user, logoutAndClearState };
@@ -49,7 +56,7 @@ export default defineComponent({
           <User
           :initials="user?.given_name?.charAt(0) + user?.family_name?.charAt(0)"
           :full-name="user?.name"
-          :email="user?.emai"
+          :email="user?.email"
         />
       </v-btn>
 
@@ -88,7 +95,7 @@ export default defineComponent({
 
       <template v-slot:append>
           <div class="pa-2">
-            <v-btn block @click="logout">
+            <v-btn block @click="logoutAndClearState">
               Logout
             </v-btn>
           </div>

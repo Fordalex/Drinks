@@ -19,7 +19,7 @@ export default defineComponent({
     const fetchSpirits = async () => {
       try {
         const accessTokenStore = useAccessTokenStore();
-        const apiUrl = `https://api.fordsdevelopment.co.uk/drinks/spirits`;
+        const apiUrl = `${import.meta.env.VITE_API_URL}/spirits`;
         if (!accessTokenStore.accessToken) {
           console.error('No access token available');
           return;

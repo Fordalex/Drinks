@@ -12,8 +12,11 @@ export default defineComponent({
   setup() {
     const accessTokenStore = useAccessTokenStore();
     const { getAccessTokenSilently } = useAuth0();
-    getAccessTokenSilently().then((token) => {
+
+    getAccessTokenSilently({ cacheMode: 'off' }).then((token) => {
       accessTokenStore.setAccessToken(token);
+    }).catch((error) => {
+      console.error('Error fetching access token:', error);
     });
   }
 })
