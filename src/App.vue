@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue'
 import GetPassword from './components/GetPassword.vue'
 import Navigation from './components/Navigation.vue'
+import { useAuth0 } from "@auth0/auth0-vue";
 
 export default defineComponent({
   name: 'App',
@@ -9,6 +10,12 @@ export default defineComponent({
     Navigation,
     GetPassword,
   },
+  setup() {
+    const { getAccessTokenSilently } = useAuth0();
+    getAccessTokenSilently().then((token) => {
+      console.log(token);
+    });
+  }
 })
 </script>
 

@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
+import { useAuth0 } from '@auth0/auth0-vue';
 
 export default defineComponent({
   name: 'Navigation',
@@ -8,6 +9,11 @@ export default defineComponent({
       drawer: false as boolean,
     }
   },
+  setup() {
+    const { logout, user } = useAuth0();
+    console.log(user)
+    return { logout, user };
+  }
 })
 </script>
 
@@ -15,7 +21,7 @@ export default defineComponent({
   <v-app>
     <!-- App Bar -->
     <v-app-bar app>
-      <v-toolbar-title>My App</v-toolbar-title>
+      <v-toolbar-title>Drinks - {{ user.given_name }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <!-- Desktop Links (hidden on mobile) -->
       <div class="d-none d-md-flex">
@@ -23,6 +29,7 @@ export default defineComponent({
         <v-btn router to="/distilleries">Distilleries</v-btn>
         <v-btn router to="/brands">Brands</v-btn>
         <v-btn router to="/companies">Companies</v-btn>
+        <v-btn @click="logout">Logout</v-btn>
       </div>
       <!-- Mobile Drawer Toggle (hidden on desktop) -->
       <v-btn icon @click="drawer = !drawer" class="d-flex d-md-none">

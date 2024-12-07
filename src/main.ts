@@ -1,5 +1,6 @@
 import './assets/main.css'
 
+import { createAuth0 } from '@auth0/auth0-vue';
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -22,5 +23,14 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(vuetify)
+app.use(
+  createAuth0({
+    domain: 'dev-n2zhod4kjh1i0uee.us.auth0.com',
+    clientId: 'lQymiZduIdaEjZacgbwdT5x3kgBMJIQN',
+    authorizationParams: {
+      redirect_uri: 'http://localhost:5173/Drinks/'
+    }
+  })
+);
 
 app.mount('#app')
