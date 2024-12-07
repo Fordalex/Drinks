@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { usePasswordStore } from '@/stores/passwordStore'
+import { useAccessTokenStore } from '@/stores/accessTokenStore'
 import Map from '../components/Map.vue'
 
 export default defineComponent({
@@ -15,17 +15,25 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.fetchSpirits()
+    this.fetchBrands()
   },
   methods: {
-    async fetchSpirits() {
+    async fetchBrands() {
       try {
-        const passwordStore = usePasswordStore()
-        const response = await fetch(
-          `https://api.allorigins.win/raw?url=${encodeURIComponent(
-            `https://api.fordsdevelopment.co.uk/drinks/brands?password=${passwordStore.password}`,
-          )}`,
-        )
+        const accessToken = useAccessTokenStore();
+        const apiUrl = `https://api.fordsdevelopment.co.uk/drinks/brands`;
+        if (!accessToken) {
+          console.error('No access token available');
+          return;
+        }
+
+        const response = await fetch(apiUrl, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+
         this.brands = await response.json()
       } catch (error) {
         console.error('Error fetching brands:', error)

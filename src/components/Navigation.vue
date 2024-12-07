@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import User from './User.vue';
+import { useAccessTokenStore } from '@/stores/accessTokenStore';
 
 export default defineComponent({
   name: 'Navigation',
@@ -15,17 +16,25 @@ export default defineComponent({
   },
   setup() {
     const { logout, user } = useAuth0();
-    console.log(user)
-    return { logout, user };
+
+    const accessTokenStore = useAccessTokenStore();
+
+    const logoutAndClearState = () => {
+      accessTokenStore.$reset();
+
+      logout();
+    };
+
+    return { logout, user, logoutAndClearState };
   }
-})
+});
 </script>
 
 <template>
   <v-app>
     <!-- App Bar -->
     <v-app-bar app>
-      <v-toolbar-title>Drinks - {{ user?.given_name }}</v-toolbar-title>
+      <v-toolbar-title>Drinks</v-toolbar-title>
       <v-spacer></v-spacer>
       <!-- Desktop Links (hidden on mobile) -->
       <div class="d-none d-md-flex">

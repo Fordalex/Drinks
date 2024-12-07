@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
-import { usePasswordStore } from '@/stores/passwordStore'
+import { useAccessTokenStore } from '@/stores/accessTokenStore'
 import Spirit from '../components/Spirit.vue'
 import Map from '../components/Map.vue'
 
@@ -24,7 +24,7 @@ export default defineComponent({
     async fetchDistillery() {
       const route = useRoute()
       const id = route.params.id
-      const passwordStore = usePasswordStore()
+      const passwordStore = useAccessTokenStore()
       try {
         const response = await fetch(
           `https://api.allorigins.win/raw?url=${encodeURIComponent(

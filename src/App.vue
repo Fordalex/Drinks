@@ -1,26 +1,25 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import GetPassword from './components/GetPassword.vue'
 import Navigation from './components/Navigation.vue'
 import { useAuth0 } from "@auth0/auth0-vue";
+import { useAccessTokenStore } from '@/stores/accessTokenStore'
 
 export default defineComponent({
   name: 'App',
   components: {
-    Navigation,
-    GetPassword,
+    Navigation
   },
   setup() {
+    const accessTokenStore = useAccessTokenStore();
     const { getAccessTokenSilently } = useAuth0();
     getAccessTokenSilently().then((token) => {
-      console.log(token);
+      accessTokenStore.setAccessToken(token);
     });
   }
 })
 </script>
 
 <template>
-  <GetPassword />
   <Navigation />
 </template>
 

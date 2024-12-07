@@ -1,10 +1,10 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { usePasswordStore } from '@/stores/passwordStore'
+import { defineComponent, onMounted, ref } from 'vue';
+import { useAccessTokenStore } from '@/stores/accessTokenStore'
 import { useAuth0 } from '@auth0/auth0-vue';
-import Spirit from '../components/Spirit.vue'
-import Map from '../components/Map.vue'
-import User from '../components/User.vue'
+import Spirit from '../components/Spirit.vue';
+import Map from '../components/Map.vue';
+import User from '../components/User.vue';
 
 export default defineComponent({
   name: 'HomeView',
@@ -13,39 +13,43 @@ export default defineComponent({
     Map,
     User,
   },
-  data() {
-    return {
-      spirits: [] as Array<any>,
-      pins: [
-        { lat: 37.7749, lng: -122.4194 }, // San Francisco
-        { lat: 34.0522, lng: -118.2437 }, // Los Angeles
-        { lat: 40.7128, lng: -74.006 }, // New York City
-      ],
-    }
-  },
-  mounted() {
-    this.fetchSpirits()
-  },
-  methods: {
-    async fetchSpirits() {
-      try {
-        const passwordStore = usePasswordStore()
-        const response = await fetch(
-          `https://api.allorigins.win/raw?url=${encodeURIComponent(
-            `https://api.fordsdevelopment.co.uk/drinks/spirits?password=${passwordStore.password}`,
-          )}`,
-        )
-        this.spirits = await response.json()
-      } catch (error) {
-        console.error('Error fetching spirits:', error)
-      }
-    },
-  },
   setup() {
-    const { user } = useAuth0()
-    return { user }
-  }
-})
+    const spirits = ref<Array<any>>([]);
+
+    const fetchSpirits = async () => {
+      try {
+        const accessTokenStore = useAccessTokenStore();
+        const apiUrl = `https://api.fordsdevelopment.co.uk/drinks/spirits`;
+        if (!accessTokenStore.accessToken) {
+          console.error('No access token available');
+          return;
+        }
+        const response = await fetch(apiUrl, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessTokenStore.accessToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        spirits.value = await response.json();
+      } catch (error) {
+        console.error('Error fetching spirits:', error);
+      }
+    };
+
+    onMounted(() => {
+      fetchSpirits();
+    });
+
+    return {
+      spirits
+    };
+  },
+});
 </script>
 
 <template>
