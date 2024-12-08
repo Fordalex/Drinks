@@ -1,0 +1,1 @@
+import{d as s,_ as t,c as n,o as r,w as e,a as o,V as l,b as c,e as d,f}from"./index-RspQ5tSm.js";const p=s({name:"HomeView",components:{},setup(){}});function u(_,a,i,V,m,w){return r(),n(f,null,{default:e(()=>[o(d,null,{default:e(()=>[o(l,{cols:"12"},{default:e(()=>a[0]||(a[0]=[c("h1",null,"Dashboard",-1)])),_:1})]),_:1})]),_:1})}const C=t(p,[["render",u]]);export{C as default};
