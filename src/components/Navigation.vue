@@ -39,33 +39,43 @@ export default defineComponent({
 
 <template>
   <v-app>
-    <!-- App Bar -->
-    <v-app-bar app>
-      <v-toolbar-title>Drinks</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <!-- Desktop Links (hidden on mobile) -->
-      <div class="d-none d-md-flex">
-        <v-btn router to="/">Home</v-btn>
-        <v-btn router to="/distilleries">Distilleries</v-btn>
-        <v-btn router to="/brands">Brands</v-btn>
-        <v-btn router to="/companies">Companies</v-btn>
-      </div>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-btn icon class="d-none d-md-flex">
-          <User
-          :initials="user?.given_name?.charAt(0) + user?.family_name?.charAt(0)"
-          :full-name="user?.name"
-          :email="user?.email"
-        />
-      </v-btn>
+    <v-card>
+      <v-layout>
+        <v-navigation-drawer
+          expand-on-hover
+          rail
+        >
+          <v-list>
+            <v-list-item
+              :prepend-avatar="user?.picture"
+              :subtitle="user?.email"
+              :title="user?.name"
+            ></v-list-item>
+          </v-list>
 
+          <v-divider></v-divider>
+
+          <v-list density="compact" nav>
+            <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard" value="Dashboard" router to="/dashboard"></v-list-item>
+            <v-list-item prepend-icon="mdi-liquor" title="Spirits" value="Spirits" router to="/spirits"></v-list-item>
+            <v-list-item prepend-icon="mdi-factory" title="Distilleries" value="Distilleries" router to="/distilleries"></v-list-item>
+          </v-list>
+        </v-navigation-drawer>
+
+        <v-main class="bg-light-grey page-container">
+          <div class="d-flex d-md-none"><br><br><br></div>
+          <router-view />
+        </v-main>
+      </v-layout>
+    </v-card>
+
+    <!-- App Bar -->
+    <v-app-bar app class="d-flex d-md-none">
       <!-- Mobile Drawer Toggle (hidden on desktop) -->
-      <v-btn icon @click="drawer = !drawer" class="d-flex d-md-none">
+      <v-btn icon @click="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
-
     <!-- Mobile Drawer -->
     <v-navigation-drawer v-model="drawer" app class="d-flex d-md-none">
       <template v-slot:prepend>
@@ -79,17 +89,14 @@ export default defineComponent({
 
         <v-divider></v-divider>
       <v-list>
-        <v-list-item router to="/" @click="drawer = false">
-          <v-list-item-title>Home</v-list-item-title>
+        <v-list-item prepend-icon="mdi-view-dashboard" router to="/dashboard" @click="drawer = false">
+          <v-list-item-title>Dashboard</v-list-item-title>
         </v-list-item>
-        <v-list-item router to="/distilleries" @click="drawer = false">
+        <v-list-item prepend-icon="mdi-liquor" router to="/spirits" @click="drawer = false">
+          <v-list-item-title>Spirits</v-list-item-title>
+        </v-list-item>
+        <v-list-item prepend-icon="mdi-factory" router to="/distilleries" @click="drawer = false">
           <v-list-item-title>Distilleries</v-list-item-title>
-        </v-list-item>
-        <v-list-item router to="/brands" @click="drawer = false">
-          <v-list-item-title>Brands</v-list-item-title>
-        </v-list-item>
-        <v-list-item router to="/companies" @click="drawer = false">
-          <v-list-item-title>Compan</v-list-item-title>
         </v-list-item>
       </v-list>
 
@@ -101,10 +108,5 @@ export default defineComponent({
           </div>
         </template>
     </v-navigation-drawer>
-
-    <!-- Main Content -->
-    <v-main class="bg-light-grey">
-      <router-view />
-    </v-main>
   </v-app>
 </template>

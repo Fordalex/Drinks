@@ -8,7 +8,18 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: HomeView
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('../views/DashboardView.vue'),
+      beforeEnter: authGuard
+    },
+    {
+      path: '/spirits',
+      name: 'spirits',
+      component: () => import('../views/SpiritsView.vue'),
       beforeEnter: authGuard
     },
     {
