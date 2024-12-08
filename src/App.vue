@@ -1,24 +1,26 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Navigation from './components/Navigation.vue'
-import { useAuth0 } from "@auth0/auth0-vue";
+import { useAuth0 } from '@auth0/auth0-vue'
 import { useAccessTokenStore } from '@/stores/accessTokenStore'
 
 export default defineComponent({
   name: 'App',
   components: {
-    Navigation
+    Navigation,
   },
   setup() {
-    const accessTokenStore = useAccessTokenStore();
-    const { getAccessTokenSilently } = useAuth0();
+    const accessTokenStore = useAccessTokenStore()
+    const { getAccessTokenSilently } = useAuth0()
 
-    getAccessTokenSilently({ cacheMode: 'off' }).then((token) => {
-      accessTokenStore.setAccessToken(token);
-    }).catch((error) => {
-      console.error('Error fetching access token:', error);
-    });
-  }
+    getAccessTokenSilently({ cacheMode: 'off' })
+      .then((token) => {
+        accessTokenStore.setAccessToken(token)
+      })
+      .catch((error) => {
+        console.error('Error fetching access token:', error)
+      })
+  },
 })
 </script>
 

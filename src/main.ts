@@ -1,6 +1,6 @@
 import './assets/main.css'
 
-import { createAuth0 } from '@auth0/auth0-vue';
+import { createAuth0 } from '@auth0/auth0-vue'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -28,9 +28,9 @@ app.use(
     domain: import.meta.env.VITE_AUTH0_DOMAIN,
     clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
     authorizationParams: {
-      redirect_uri: import.meta.env.VITE_AUTH0_REDIRECT_URI
-    }
-  })
-);
+      redirect_uri: import.meta.env.VITE_AUTH0_REDIRECT_URI,
+    },
+  }),
+)
 
 app.mount('#app')

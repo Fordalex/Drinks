@@ -20,11 +20,11 @@ export default defineComponent({
   methods: {
     async fetchBrands() {
       try {
-        const accessToken = useAccessTokenStore();
-        const apiUrl = `https://api.fordsdevelopment.co.uk/drinks/brands`;
+        const accessToken = useAccessTokenStore()
+        const apiUrl = `https://api.fordsdevelopment.co.uk/drinks/brands`
         if (!accessToken) {
-          console.error('No access token available');
-          return;
+          console.error('No access token available')
+          return
         }
 
         const response = await fetch(apiUrl, {

@@ -17,6 +17,6 @@ export const useAccessTokenStore = defineStore('accessToken', {
     clearState(): void {
       this.accessToken = null
       localStorage.removeItem('accessToken')
-    }
+    },
   },
 })

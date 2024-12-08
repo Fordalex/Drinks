@@ -1,14 +1,12 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue'
 import { useAccessTokenStore } from '@/stores/accessTokenStore'
 
 export default defineComponent({
   name: 'HomeView',
   components: {},
-  setup() {
-
-  },
-});
+  setup() {},
+})
 </script>
 
 <template>
