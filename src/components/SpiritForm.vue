@@ -78,7 +78,8 @@ export default defineComponent({
           rows="4"
           required
         ></v-textarea>
-        <v-text-field v-model="record.image" label="Image URL"></v-text-field>
+        <v-text-field v-model="record.image" label="Image"></v-text-field>
+        <v-text-field v-model="record.rating" label="Rating"></v-text-field>
       </v-form>
     </template>
   </RecordForm>

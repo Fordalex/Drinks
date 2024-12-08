@@ -7,6 +7,7 @@ interface SpiritInteface {
   name: string;
   description: string;
   image: string;
+  rating: number;
   id: number;
 }
 
@@ -96,7 +97,7 @@ export default defineComponent({
     <v-card-text>
       <v-row align="center" class="mx-0">
         <v-rating
-          :model-value="4.5"
+          :model-value="spirit.rating"
           color="amber"
           density="compact"
           size="small"
