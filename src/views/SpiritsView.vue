@@ -3,12 +3,14 @@ import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useAccessTokenStore } from '@/stores/accessTokenStore'
 import Spirit from '../components/Spirit.vue'
 import RecordForm from '../components/RecordForm.vue'
+import SpiritForm from '@/components/SpiritForm.vue'
 
 export default defineComponent({
   name: 'SpiritsView',
   components: {
     Spirit,
     RecordForm,
+    SpiritForm,
   },
   setup() {
     const spirits = ref<Array<any>>([])
@@ -60,31 +62,20 @@ export default defineComponent({
     <v-row>
       <v-col cols="12">
         <h1>Spirits</h1>
+
+        <SpiritForm :spirit="spirit">
+          <template #trigger="{ openDialog }">
+            <v-btn
+              density="comfortable"
+              variant="tonal"
+              text="New Spirit"
+              @click="openDialog"
+            ></v-btn>
+          </template>
+        </SpiritForm>
       </v-col>
     </v-row>
   </v-container>
-
-  <div>
-    <RecordForm
-      :endpoint="endpoint"
-      method="POST"
-      @save="handleSave"
-    >
-      <template #button-label>
-        <span>Add Spirit</span>
-      </template>
-      <template #title>
-        <span>Add New Spirit</span>
-      </template>
-      <template #form="{ record }">
-        <v-form>
-          <v-text-field v-model="record.name" label="Name" required></v-text-field>
-          <v-textarea v-model="record.description" label="Description" rows="4" required></v-textarea>
-          <v-text-field v-model="record.image" label="Image URL"></v-text-field>
-        </v-form>
-      </template>
-    </RecordForm>
-  </div>
 
   <v-container v-if="!loading">
     <v-row>
