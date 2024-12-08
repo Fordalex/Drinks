@@ -2,14 +2,12 @@
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useAccessTokenStore } from '@/stores/accessTokenStore'
 import Spirit from '../components/Spirit.vue'
-import RecordForm from '../components/RecordForm.vue'
 import SpiritForm from '@/components/SpiritForm.vue'
 
 export default defineComponent({
   name: 'SpiritsView',
   components: {
     Spirit,
-    RecordForm,
     SpiritForm,
   },
   setup() {

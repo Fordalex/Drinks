@@ -2,7 +2,6 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useAccessTokenStore } from '@/stores/accessTokenStore'; // Access token store for authenticated requests
 import SpiritForm from './SpiritForm.vue';
-import type { a } from 'node_modules/vite/dist/node/types.d-aGj9QkWt';
 
 interface SpiritInteface {
   name: string;
