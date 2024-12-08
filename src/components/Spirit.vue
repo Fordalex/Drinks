@@ -2,6 +2,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useAccessTokenStore } from '@/stores/accessTokenStore'; // Access token store for authenticated requests
 import SpiritForm from './SpiritForm.vue';
+import type { a } from 'node_modules/vite/dist/node/types.d-aGj9QkWt';
 
 interface SpiritInteface {
   name: string;
@@ -9,6 +10,8 @@ interface SpiritInteface {
   image: string;
   rating: number;
   id: number;
+  distilleries: any[];
+  spirit_type: any;
 }
 
 export default defineComponent({
@@ -86,12 +89,20 @@ export default defineComponent({
       <v-img height="250" :src="spirit.image" contain></v-img>
     </div>
 
+    <!-- <v-chip-group class="px-4">
+        <v-chip density="comfortable" size="small">Vanilla</v-chip>
+        <v-chip density="comfortable" size="small">Black Berry</v-chip>
+        <v-chip density="comfortable" size="small">Smokey</v-chip>
+        <v-chip density="comfortable" size="small">Nut</v-chip>
+      </v-chip-group> -->
+
     <v-card-item>
       <v-card-title>{{ spirit.name }}</v-card-title>
-      <v-card-subtitle>
+
+      <!-- <v-card-subtitle>
         <span class="me-1">Local Favorite</span>
         <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
-      </v-card-subtitle>
+      </v-card-subtitle> -->
     </v-card-item>
 
     <v-card-text>
@@ -104,10 +115,40 @@ export default defineComponent({
           half-increments
           readonly
         ></v-rating>
-        <div class="text-grey ms-4">4.5 (413)</div>
+        <!-- <div class="text-grey ms-4">4.5 (413)</div> -->
       </v-row>
 
-      <div class="my-4 text-subtitle-1">$ • Italian, Cafe</div>
+      <p class="my-4 text-subtitle-1 spirit-factory">
+        <v-icon
+          color="black"
+          icon="mdi-factory"
+          size="large"
+        ></v-icon>
+        {{ spirit.distilleries.map((d) => d.name).join(', ') || 'No distillery.' }}
+      </p>
+
+      <div>
+        <v-chip
+          class="mb-2 mr-2"
+          color="grey"
+          size="small"
+          label
+        >
+          <v-icon icon="mdi-label" start></v-icon>
+          {{ spirit.spirit_type.name }}
+        </v-chip>
+
+        <v-chip
+          class="mb-2"
+          color="grey"
+          size="small"
+          label
+        >
+          <v-icon icon="mdi-label" start></v-icon>
+          {{ spirit.spirit_style.name }}
+        </v-chip>
+      </div>
+
       <div>{{ spirit.description || 'No description.' }}</div>
     </v-card-text>
   </v-card>

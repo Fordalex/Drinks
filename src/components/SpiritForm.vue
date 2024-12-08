@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import RecordForm from './RecordForm.vue';
 import { useAccessTokenStore } from '@/stores/accessTokenStore';
 
@@ -24,6 +24,8 @@ export default defineComponent({
   },
   setup(props) {
     const accessTokenStore = useAccessTokenStore();
+    const items = ['Vanilla', 'Caramel', 'Spicy', 'Fruity', 'Floral', 'Herbal', 'Smoky', 'Woody'];
+    const value = ref<string[]>([]);
 
     // Determine if we're editing or adding a new record
     const isEditMode = computed(() => !!props.spirit.id);
@@ -49,6 +51,8 @@ export default defineComponent({
       endpoint,
       method,
       handleSave,
+      items,
+      value,
     };
   },
 });
@@ -80,6 +84,13 @@ export default defineComponent({
         ></v-textarea>
         <v-text-field v-model="record.image" label="Image"></v-text-field>
         <v-text-field v-model="record.rating" label="Rating"></v-text-field>
+        <v-autocomplete
+    v-model="value"
+    :items="items"
+    label="Searchable Chips"
+    chips
+    multiple
+  ></v-autocomplete>
       </v-form>
     </template>
   </RecordForm>

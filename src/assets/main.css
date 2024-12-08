@@ -167,3 +167,9 @@ select {
 .image-container img {
   padding: 1rem;
 }
+
+.spirit-factory i {
+  position: relative;
+  bottom: 2px;
+  font-size: 1.25rem;
+}

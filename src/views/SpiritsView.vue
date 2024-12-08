@@ -34,7 +34,8 @@ export default defineComponent({
           throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        spirits.value = await response.json()
+        spirits.value = await response.json();
+        console.log('Spirits:', spirits.value)
         loading.value = false
       } catch (error) {
         console.error('Error fetching spirits:', error)
