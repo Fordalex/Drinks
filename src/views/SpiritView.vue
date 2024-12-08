@@ -6,7 +6,7 @@ import Spirit from '../components/Spirit.vue'
 import Map from '../components/Map.vue'
 
 export default defineComponent({
-  name: 'App',
+  name: 'SpiritView',
   data() {
     return {
       distillery: {} as any,

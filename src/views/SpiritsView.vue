@@ -1,17 +1,19 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useAccessTokenStore } from '@/stores/accessTokenStore'
-import { useAuth0 } from '@auth0/auth0-vue'
 import Spirit from '../components/Spirit.vue'
+import RecordForm from '../components/RecordForm.vue'
 
 export default defineComponent({
-  name: 'HomeView',
+  name: 'SpiritsView',
   components: {
     Spirit,
+    RecordForm,
   },
   setup() {
-    const spirits = ref<Array<any>>([]);
-    const loading = ref(true);
+    const spirits = ref<Array<any>>([])
+    const loading = ref(true)
+    const endpoint = computed(() => `${import.meta.env.VITE_API_URL}/spirits`)
 
     const fetchSpirits = async () => {
       try {
@@ -46,6 +48,7 @@ export default defineComponent({
     return {
       spirits,
       loading,
+      endpoint,
     }
   },
 })
@@ -60,9 +63,39 @@ export default defineComponent({
     </v-row>
   </v-container>
 
+  <div>
+    <RecordForm
+      :endpoint="endpoint"
+      method="POST"
+      @save="handleSave"
+    >
+      <template #button-label>
+        <span>Add Spirit</span>
+      </template>
+      <template #title>
+        <span>Add New Spirit</span>
+      </template>
+      <template #form="{ record }">
+        <v-form>
+          <v-text-field v-model="record.name" label="Name" required></v-text-field>
+          <v-textarea v-model="record.description" label="Description" rows="4" required></v-textarea>
+          <v-text-field v-model="record.image" label="Image URL"></v-text-field>
+        </v-form>
+      </template>
+    </RecordForm>
+  </div>
+
   <v-container v-if="!loading">
     <v-row>
-      <v-col cols="12" sm="6" md="4" lg="3" v-for="(spirit, index) in spirits" :key="index" :spirit="spirit">
+      <v-col
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+        v-for="(spirit, index) in spirits"
+        :key="index"
+        :spirit="spirit"
+      >
         <Spirit :spirit="spirit" />
       </v-col>
     </v-row>
@@ -71,10 +104,7 @@ export default defineComponent({
   <v-container v-if="loading">
     <v-row>
       <v-col cols="12" sm="6" md="4" lg="3" v-for="n in 16">
-        <v-skeleton-loader
-          class="border"
-          type="image, article"
-        ></v-skeleton-loader>
+        <v-skeleton-loader class="border" type="image, article"></v-skeleton-loader>
       </v-col>
     </v-row>
   </v-container>

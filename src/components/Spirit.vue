@@ -1,35 +1,66 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import EditRecord from './EditRecord.vue'; // Import the EditModal component
+import { defineComponent, ref, computed } from 'vue';
+import { useAccessTokenStore } from '@/stores/accessTokenStore'; // Access token store for authenticated requests
+import SpiritForm from './SpiritForm.vue';
 
-interface Spirit {
+interface SpiritInteface {
   name: string;
   description: string;
   image: string;
+  id: number;
 }
 
 export default defineComponent({
   name: 'Spirit',
   props: {
     spirit: {
-      type: Object as () => Spirit,
+      type: Object as () => SpiritInteface,
       required: true,
     },
   },
   components: {
-    EditRecord,
+    SpiritForm,
   },
   setup(props) {
     const editedSpirit = ref({ ...props.spirit }); // Local copy for editing
+    const accessTokenStore = useAccessTokenStore();
 
-    const saveChanges = () => {
-      console.log('Updated Spirit:', editedSpirit.value);
-      // Replace this with an API call or state update logic
+    // Compute the endpoint for the API request
+    const endpoint = computed(() => `${import.meta.env.VITE_API_URL}/spirits/${props.spirit.id}`);
+
+    // Save changes to the backend
+    const saveChanges = async ({ data, endpoint }: { data: object; endpoint: string }) => {
+      try {
+        const response = await fetch(endpoint, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessTokenStore.accessToken}`, // Include the access token
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+
+        const updatedSpirit = await response.json();
+        console.log('Save successful:', updatedSpirit);
+
+        // Update local data after saving
+        editedSpirit.value = updatedSpirit;
+
+        // Reload the page to reflect the latest data
+        window.location.reload();
+      } catch (error) {
+        console.error('Error saving spirit:', error);
+      }
     };
 
     return {
       editedSpirit,
       saveChanges,
+      endpoint,
     };
   },
 });
@@ -37,30 +68,18 @@ export default defineComponent({
 
 <template>
   <v-card>
-
     <v-col cols="12">
-          <v-menu
-            location="bottom start"
-            origin="overlap"
-            transition="slide-y-transition"
-          >
-            <template v-slot:activator="{ props }">
-              <v-btn
-                v-bind="props"
-                density="comfortable"
-                icon="mdi-dots-vertical"
-                variant="tonal"
-              ></v-btn>
-            </template>
-
-            <v-list :lines="false">
-              <v-list-item
-                title="Edit"
-                @click="$refs.editRecord.dialog = true"
-              ></v-list-item>
-            </v-list>
-          </v-menu>
-        </v-col>
+      <SpiritForm :spirit="spirit">
+        <template #trigger="{ openDialog }">
+          <v-btn
+            density="comfortable"
+            icon="mdi-dots-vertical"
+            variant="tonal"
+            @click="openDialog"
+          ></v-btn>
+        </template>
+      </SpiritForm>
+    </v-col>
 
     <div class="image-container">
       <v-img height="250" :src="spirit.image" contain></v-img>
@@ -90,30 +109,5 @@ export default defineComponent({
       <div class="my-4 text-subtitle-1">$ • Italian, Cafe</div>
       <div>{{ spirit.description || 'No description.' }}</div>
     </v-card-text>
-
-    <v-card-actions>
-      <v-btn color="deep-purple-lighten-2" text="More" block border></v-btn>
-      <!-- Edit Button -->
-      <EditRecord ref="editRecord" @save="saveChanges">
-        <template #title>
-          <span>Edit Spirit</span>
-        </template>
-        <template #form>
-          <v-form>
-            <v-text-field
-              v-model="editedSpirit.name"
-              label="Name"
-              required
-            ></v-text-field>
-            <v-textarea
-              v-model="editedSpirit.description"
-              label="Description"
-              rows="4"
-              required
-            ></v-textarea>
-          </v-form>
-        </template>
-      </EditRecord>
-    </v-card-actions>
   </v-card>
 </template>

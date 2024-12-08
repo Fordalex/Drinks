@@ -1,22 +1,22 @@
 <script lang="ts">
-import { defineComponent, watchEffect } from 'vue';
-import { useAuth0 } from '@auth0/auth0-vue';
+import { defineComponent, watchEffect } from 'vue'
+import { useAuth0 } from '@auth0/auth0-vue'
 
 export default defineComponent({
   name: 'HomeView',
   setup() {
-    const { user, loginWithRedirect, isAuthenticated } = useAuth0();
+    const { user, loginWithRedirect, isAuthenticated } = useAuth0()
 
     // Reactively watch for `user` changes
     watchEffect(() => {
       if (isAuthenticated.value && user?.value?.email) {
-        window.location.href = '/Drinks/#/dashboard'; // Redirect to dashboard
+        window.location.href = '/Drinks/#/dashboard' // Redirect to dashboard
       }
-    });
+    })
 
-    return { loginWithRedirect };
+    return { loginWithRedirect }
   },
-});
+})
 </script>
 
 <template>
