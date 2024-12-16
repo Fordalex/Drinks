@@ -78,21 +78,21 @@ export default defineComponent({
         </v-navigation-drawer>
 
         <v-main class="bg-light-grey page-container">
-          <div class="d-flex d-md-none"><br /><br /><br /></div>
+          <div class="d-flex d-lg-none"><br /><br /><br /></div>
           <router-view />
         </v-main>
       </v-layout>
     </v-card>
 
     <!-- App Bar -->
-    <v-app-bar app class="d-flex d-md-none">
+    <v-app-bar app class="d-flex d-lg-none">
       <!-- Mobile Drawer Toggle (hidden on desktop) -->
       <v-btn icon @click="drawer = !drawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
     <!-- Mobile Drawer -->
-    <v-navigation-drawer v-model="drawer" app class="d-flex d-md-none">
+    <v-navigation-drawer v-model="drawer" app class="d-flex d-lg-none">
       <template v-slot:prepend>
         <v-list-item
           lines="two"
