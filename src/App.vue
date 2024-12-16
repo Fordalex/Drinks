@@ -13,13 +13,15 @@ export default defineComponent({
     const accessTokenStore = useAccessTokenStore()
     const { getAccessTokenSilently } = useAuth0()
 
-    getAccessTokenSilently({ cacheMode: 'off' })
-      .then((token) => {
-        accessTokenStore.setAccessToken(token)
-      })
-      .catch((error) => {
-        console.error('Error fetching access token:', error)
-      })
+    if (!accessTokenStore.accessToken) {
+      getAccessTokenSilently({ cacheMode: 'on' })
+        .then((token) => {
+          accessTokenStore.setAccessToken(token)
+        })
+        .catch((error) => {
+          console.error('Error fetching access token:', error)
+        })
+      }
   },
 })
 </script>
