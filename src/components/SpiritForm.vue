@@ -3,11 +3,12 @@ import { defineComponent, computed, ref } from 'vue';
 import RecordForm from './RecordForm.vue';
 import { useAccessTokenStore } from '@/stores/accessTokenStore';
 
-interface Spirit {
+export interface Spirit {
   id?: number; // Optional for new records
   name: string;
   description: string;
   image: string;
+
 }
 
 export default defineComponent({
@@ -46,6 +47,30 @@ export default defineComponent({
       window.location.reload();
     };
 
+
+    // const spiritTypes = async () => {
+    //   const url = `${import.meta.env.VITE_API_URL}/spirit_types`;
+
+    //   try {
+    //     const response = await fetch(url, {
+    //       method: 'GET',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Authorization: `Bearer ${accessTokenStore.accessToken}`, // Include the access token
+    //       },
+    //     });
+
+    //     if (!response.ok) {
+    //       throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    //     }
+
+    //     console.log('Spirit Types:', response);
+    //   } catch (error) {
+    //     console.error('Error saving spirit:', error);
+    //   }
+    // }
+    // spiritTypes();
+
     return {
       isEditMode,
       endpoint,
@@ -76,21 +101,27 @@ export default defineComponent({
     <template #form="{ record }">
       <v-form>
         <v-text-field v-model="record.name" label="Name" required></v-text-field>
+
         <v-textarea
           v-model="record.description"
           label="Description"
           rows="4"
           required
         ></v-textarea>
+
         <v-text-field v-model="record.image" label="Image"></v-text-field>
+
         <v-text-field v-model="record.rating" label="Rating"></v-text-field>
+
+        <v-text-field v-model="record.ppm" label="Ppm"></v-text-field>
+
         <v-autocomplete
-    v-model="value"
-    :items="items"
-    label="Searchable Chips"
-    chips
-    multiple
-  ></v-autocomplete>
+          v-model="value"
+          :items="items"
+          label="Searchable Chips"
+          chips
+          multiple
+        ></v-autocomplete>
       </v-form>
     </template>
   </RecordForm>

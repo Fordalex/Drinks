@@ -1,9 +1,11 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import { useAccessTokenStore } from '@/stores/accessTokenStore'; // Access token store for authenticated requests
+import type { PropType } from 'vue';
+import { useAccessTokenStore } from '@/stores/accessTokenStore';
 import SpiritForm from './SpiritForm.vue';
 
-interface SpiritInteface {
+// Export the interface
+export interface SpiritInterface {
   name: string;
   description: string;
   image: string;
@@ -11,13 +13,15 @@ interface SpiritInteface {
   id: number;
   distilleries: any[];
   spirit_type: any;
+  spirit_style: any;
+  ppm: number;
 }
 
 export default defineComponent({
   name: 'Spirit',
   props: {
     spirit: {
-      type: Object as () => SpiritInteface,
+      type: Object as PropType<SpiritInterface>, // Use PropType
       required: true,
     },
   },
@@ -25,20 +29,18 @@ export default defineComponent({
     SpiritForm,
   },
   setup(props) {
-    const editedSpirit = ref({ ...props.spirit }); // Local copy for editing
+    const editedSpirit = ref({ ...props.spirit });
     const accessTokenStore = useAccessTokenStore();
 
-    // Compute the endpoint for the API request
     const endpoint = computed(() => `${import.meta.env.VITE_API_URL}/spirits/${props.spirit.id}`);
 
-    // Save changes to the backend
     const saveChanges = async ({ data, endpoint }: { data: object; endpoint: string }) => {
       try {
         const response = await fetch(endpoint, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessTokenStore.accessToken}`, // Include the access token
+            Authorization: `Bearer ${accessTokenStore.accessToken}`,
           },
           body: JSON.stringify(data),
         });
@@ -48,12 +50,7 @@ export default defineComponent({
         }
 
         const updatedSpirit = await response.json();
-        console.log('Save successful:', updatedSpirit);
-
-        // Update local data after saving
         editedSpirit.value = updatedSpirit;
-
-        // Reload the page to reflect the latest data
         window.location.reload();
       } catch (error) {
         console.error('Error saving spirit:', error);
@@ -68,6 +65,7 @@ export default defineComponent({
   },
 });
 </script>
+
 
 <template>
   <v-card>
@@ -129,22 +127,33 @@ export default defineComponent({
       <div>
         <v-chip
           class="mb-2 mr-2"
-          color="grey"
+          :color="spirit.spirit_type.colour"
           size="small"
           label
         >
-          <v-icon icon="mdi-label" start></v-icon>
+          <v-icon :icon="spirit.spirit_type.icon" start></v-icon>
           {{ spirit.spirit_type.name }}
         </v-chip>
 
         <v-chip
-          class="mb-2"
-          color="grey"
+          class="mb-2 mr-2"
+          :color="spirit.spirit_type.colour"
           size="small"
           label
         >
-          <v-icon icon="mdi-label" start></v-icon>
+          <v-icon :icon="spirit.spirit_style.icon" start></v-icon>
           {{ spirit.spirit_style.name }}
+        </v-chip>
+
+        <v-chip
+          class="mb-2"
+          color="#8c4f00"
+          size="small"
+          label
+          v-if="spirit.ppm"
+        >
+          <v-icon icon="mdi mdi-smoke" start></v-icon>
+          {{ spirit.ppm }}
         </v-chip>
       </div>
 
