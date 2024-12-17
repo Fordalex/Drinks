@@ -13,6 +13,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    name: {
+      type: String,
+      required: true,
+    },
     value: {
       type: String,
       required: true,
@@ -114,26 +118,17 @@ export default defineComponent({
 </script>
 
 <template>
-  <label for="select" class="block text">{{ $props.path }}</label>
+  <label for="select" class="block text capitalize">{{ $props.path.replace('_', ' ') }}</label>
 
-  <select :value="selected" @change="handleChange" class="border border-gray-300 rounded-md mb-5" v-if="!loading && !errorMessage">
-    <option v-for="item in items" :key="item" :value="item">{{ item }}</option>
-  </select>
-  <div v-if="loading && !errorMessage">Loading...</div>
-
-  <v-container v-if="!loading">
-    <v-row>
-      <v-col cols="12">
-        <v-alert
-          v-if="errorMessage"
-          type="error"
-          dismissible
-          border="left"
-          elevation="2"
-        >
-          {{ errorMessage }}
-        </v-alert>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-select
+    v-model="selected"
+    :items="items"
+    @change="handleChange"
+    :loading="loading"
+    :error-messages="errorMessage"
+    :name="$props.name"
+    outlined
+    dense
+    clearable
+  ></v-select>
 </template>

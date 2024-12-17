@@ -2,13 +2,13 @@
 import { defineComponent, computed, ref } from 'vue';
 import RecordForm from './RecordForm.vue';
 import { useAccessTokenStore } from '@/stores/accessTokenStore';
+import SelectFromRequest from '@/components/SelectFromRequest.vue';
 
 export interface Spirit {
   id?: number; // Optional for new records
   name: string;
   description: string;
   image: string;
-
 }
 
 export default defineComponent({
@@ -22,11 +22,15 @@ export default defineComponent({
   },
   components: {
     RecordForm,
+    SelectFromRequest,
   },
   setup(props) {
     const accessTokenStore = useAccessTokenStore();
     const items = ['Vanilla', 'Caramel', 'Spicy', 'Fruity', 'Floral', 'Herbal', 'Smoky', 'Woody'];
     const value = ref<string[]>([]);
+    const selectedSpiritType = ref<string>('');
+    const selectedSpiritStyle = ref<string>('');
+    const selectedDistillery = ref<string>('');
 
     // Determine if we're editing or adding a new record
     const isEditMode = computed(() => !!props.spirit.id);
@@ -47,30 +51,6 @@ export default defineComponent({
       window.location.reload();
     };
 
-
-    // const spiritTypes = async () => {
-    //   const url = `${import.meta.env.VITE_API_URL}/spirit_types`;
-
-    //   try {
-    //     const response = await fetch(url, {
-    //       method: 'GET',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         Authorization: `Bearer ${accessTokenStore.accessToken}`, // Include the access token
-    //       },
-    //     });
-
-    //     if (!response.ok) {
-    //       throw new Error(`Error: ${response.status} - ${response.statusText}`);
-    //     }
-
-    //     console.log('Spirit Types:', response);
-    //   } catch (error) {
-    //     console.error('Error saving spirit:', error);
-    //   }
-    // }
-    // spiritTypes();
-
     return {
       isEditMode,
       endpoint,
@@ -78,6 +58,9 @@ export default defineComponent({
       handleSave,
       items,
       value,
+      selectedSpiritType,
+      selectedSpiritStyle,
+      selectedDistillery,
     };
   },
 });
@@ -114,6 +97,27 @@ export default defineComponent({
         <v-text-field v-model="record.rating" label="Rating"></v-text-field>
 
         <v-text-field v-model="record.ppm" label="Ppm"></v-text-field>
+
+        <SelectFromRequest
+          path="spirit_types"
+          key="name"
+          name="spirit_type"
+          v-model="selectedSpiritType"
+        />
+
+        <SelectFromRequest
+          path="spirit_styles"
+          key="name"
+          name="spirit_style"
+          v-model="selectedSpiritStyle"
+        />
+
+        <SelectFromRequest
+          path="distilleries"
+          key="name"
+          name="distillery"
+          v-model="selectedDistillery"
+        />
 
         <v-autocomplete
           v-model="value"

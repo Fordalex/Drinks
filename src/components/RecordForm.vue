@@ -19,13 +19,11 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const dialog = ref(false); // Modal visibility
-    const localRecord = ref({ ...props.record }); // Local copy of the record
-
-    // Access token store
+    const dialog = ref(false);
+    const localRecord = ref({ ...props.record });
+    const errorMessage = ref<string | null>(null);
     const accessTokenStore = useAccessTokenStore();
 
-    // Watch for changes in the `record` prop and update `localRecord`
     watch(
       () => props.record,
       (newRecord) => {
@@ -39,24 +37,20 @@ export default defineComponent({
     };
 
     const saveRecord = async () => {
-      try {
-        const response = await fetch(props.endpoint, {
-          method: props.method,
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessTokenStore.accessToken}`, // Include the access token
-          },
-          body: JSON.stringify(localRecord.value),
-        });
+      errorMessage.value = null;
+      const response = await fetch(props.endpoint, {
+        method: props.method,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessTokenStore.accessToken}`, // Include the access token
+        },
+        body: JSON.stringify(localRecord.value),
+      });
 
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} - ${response.statusText}`);
-        }
-
-        // Reload the page after a successful operation
+      if (!response.ok) {
+        errorMessage.value = await response.json();
+      } else {
         window.location.reload();
-      } catch (error) {
-        console.error('Error saving record:', error);
       }
     };
 
@@ -65,6 +59,7 @@ export default defineComponent({
       localRecord,
       openDialog,
       saveRecord,
+      errorMessage,
     };
   },
 });
@@ -90,7 +85,8 @@ export default defineComponent({
           <slot name="form" :record="localRecord">No form provided</slot>
         </v-card-text>
 
-        <!-- Customizable actions -->
+        <p v-if="errorMessage" class="error text-center">{{ errorMessage }}</p>
+
         <v-card-actions>
           <slot name="actions">
             <v-btn text color="secondary" @click="dialog = false">Cancel</v-btn>

@@ -20,6 +20,7 @@ export default defineComponent({
     const errorMessage = ref<string | null>(null);
     const selectedSpiritType = ref<Array<any>>([]);
     const selectedSpiritStyle = ref<Array<any>>([]);
+    const selectedDistillery = ref<Array<any>>([]);
 
     const fetchSpirits = async () => {
       try {
@@ -60,7 +61,8 @@ export default defineComponent({
       endpoint,
       errorMessage,
       selectedSpiritType,
-      selectedSpiritStyle
+      selectedSpiritStyle,
+      selectedDistillery,
     }
   },
 })
@@ -69,9 +71,11 @@ export default defineComponent({
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
+      <v-col cols="6">
         <h1>Drinks</h1>
+      </v-col>
 
+      <v-col cols="6" class="text-right">
         <SpiritForm :spirit="spirit">
           <template #trigger="{ openDialog }">
             <v-btn
@@ -82,18 +86,44 @@ export default defineComponent({
             ></v-btn>
           </template>
         </SpiritForm>
+      </v-col>
+    </v-row>
 
+    <v-row>
+      <v-col cols="3">
         <SelectFromRequest
           path="spirit_types"
           key="name"
           v-model="selectedSpiritType"
         />
+      </v-col>
 
+      <v-col cols="3">
         <SelectFromRequest
           path="spirit_styles"
           key="name"
           v-model="selectedSpiritStyle"
         />
+      </v-col>
+
+      <v-col cols="3">
+        <SelectFromRequest
+          path="distilleries"
+          key="name"
+          v-model="selectedDistillery"
+        />
+      </v-col>
+
+      <v-col cols="3" class="d-flex align-center">
+        <v-btn
+          @click="fetchSpirits"
+          color="primary"
+          class="width-100"
+          dark
+          elevation="2"
+        >
+          Search
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
