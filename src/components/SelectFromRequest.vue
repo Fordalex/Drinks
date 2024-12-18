@@ -17,12 +17,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    value: {
+    modelValue: {
       type: String,
-      required: true,
     },
   },
-  emits: ['update:value'],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     const accessTokenStore = useAccessTokenStore();
 
@@ -60,8 +59,9 @@ export default defineComponent({
         }
 
         const data = await response.json();
-        const mappedData = data.map((item: any) => item['name']);
-        items.value = Array.isArray(mappedData) ? mappedData : [];
+        const mappedData = data.map((item: any) => ({ id: item['id'], name: item['name'] }));
+        console.log('mappedData', mappedData);
+        items.value = mappedData
         loading.value = false;
       } catch (error: any) {
         console.error('Error fetching items:', error);
@@ -71,9 +71,11 @@ export default defineComponent({
     };
 
     const handleChange = (event: Event) => {
+      console.log('handleChange', event);
+      console.log('value', selected.value);
       const target = event.target as HTMLSelectElement;
-      selected.value = target.value;
-      emit('update:value', target.value);
+      selected.value = selected.value;
+      emit('update:modelValue', selected.value);
     };
 
     // Fetch data once path changes and when token becomes available
@@ -118,12 +120,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <label for="select" class="block text capitalize">{{ $props.path.replace('_', ' ') }}</label>
+  <label class="block text capitalize">{{ $props.path.replace('_', ' ') }}</label>
 
   <v-select
     v-model="selected"
     :items="items"
-    @change="handleChange"
+    item-title="name"
+    item-value="id"
+    @update:modelValue="handleChange"
     :loading="loading"
     :error-messages="errorMessage"
     :name="$props.name"

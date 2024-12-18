@@ -37,6 +37,7 @@ export default defineComponent({
     };
 
     const saveRecord = async () => {
+      console.error(JSON.stringify(localRecord.value))
       errorMessage.value = null;
       const response = await fetch(props.endpoint, {
         method: props.method,
@@ -46,10 +47,13 @@ export default defineComponent({
         },
         body: JSON.stringify(localRecord.value),
       });
+      console.log(JSON.stringify(localRecord.value))
 
       if (!response.ok) {
+        console.log(JSON.stringify(localRecord.value))
         errorMessage.value = await response.json();
       } else {
+        console.log(JSON.stringify(localRecord.value))
         window.location.reload();
       }
     };

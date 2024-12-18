@@ -9,6 +9,7 @@ export interface Spirit {
   name: string;
   description: string;
   image: string;
+  rating: number;
 }
 
 export default defineComponent({
@@ -17,7 +18,16 @@ export default defineComponent({
     spirit: {
       type: Object as () => Spirit,
       required: false, // Optional for adding new records
-      default: () => ({ name: '', description: '', image: '' }), // Default values for new records
+      default: () => (
+        {
+          name: '',
+          description: '',
+          image: '',
+          rating: 0,
+          spirit_type_id: null,
+          spirit_style_id: null,
+        }
+      ), // Default values for new records
     },
   },
   components: {
@@ -101,23 +111,24 @@ export default defineComponent({
         <SelectFromRequest
           path="spirit_types"
           key="name"
-          name="spirit_type"
-          v-model="selectedSpiritType"
+          name="spirit_type_id"
+          v-model="record.spirit_type_id"
         />
 
         <SelectFromRequest
           path="spirit_styles"
           key="name"
-          name="spirit_style"
-          v-model="selectedSpiritStyle"
+          name="spirit_style_id"
+          v-model="record.spirit_style_id"
         />
 
-        <SelectFromRequest
+        <!-- a spirit can have muliple distilleries,  -->
+        <!-- <SelectFromRequest
           path="distilleries"
           key="name"
           name="distillery"
           v-model="selectedDistillery"
-        />
+        /> -->
 
         <v-autocomplete
           v-model="value"

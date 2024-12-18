@@ -23,31 +23,33 @@ export default defineComponent({
     const selectedDistillery = ref<Array<any>>([]);
 
     const fetchSpirits = async () => {
-      try {
-        const accessTokenStore = useAccessTokenStore()
-        const apiUrl = `${import.meta.env.VITE_API_URL}/spirits`
-        if (!accessTokenStore.accessToken) {
-          console.error('No access token available')
-          return
-        }
-        const response = await fetch(apiUrl, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessTokenStore.accessToken}`,
-          },
-        })
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
+      const accessTokenStore = useAccessTokenStore()
+      const apiUrl = `${import.meta.env.VITE_API_URL}/spirits`
+      if (!accessTokenStore.accessToken) {
+        console.error('No access token available')
+        return
+      }
+      const response = await fetch(apiUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessTokenStore.accessToken}`,
+        },
+      })
 
+
+      if (response.ok) {
+        loading.value = false;
         spirits.value = await response.json();
-        console.log('Spirits:', spirits.value);
-        loading.value = false;
-      } catch (error) {
-        console.log(error)
-        loading.value = false;
-        errorMessage.value = error;
+      } else {
+        loading.value = false
+        const responseBody = await response.json();
+        errorMessage.value = responseBody.error;
+        if (responseBody.error === "Access token has expired or is invalid.") {
+          console.log('Access token has expired or is invalid.')
+          accessTokenStore.$reset()
+          accessTokenStore.clearState()
+        }
       }
     }
 
