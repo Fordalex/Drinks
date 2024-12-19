@@ -16,6 +16,8 @@ export interface SpiritInterface {
   spirit_type: any;
   spirit_style: any;
   ppm: number;
+  company: any;
+  brand: any;
 }
 
 export default defineComponent({
@@ -35,6 +37,10 @@ export default defineComponent({
     const accessTokenStore = useAccessTokenStore();
 
     const endpoint = computed(() => `${import.meta.env.VITE_API_URL}/spirits/${props.spirit.id}`);
+
+    const spiritLink = computed(() => {
+      return `/Drinks/#/spirits/${props.spirit.id}`;
+    });
 
     const saveChanges = async ({ data, endpoint }: { data: object; endpoint: string }) => {
       try {
@@ -63,6 +69,7 @@ export default defineComponent({
       editedSpirit,
       saveChanges,
       endpoint,
+      spiritLink
     };
   },
 });
@@ -118,12 +125,20 @@ export default defineComponent({
         <!-- <div class="text-grey ms-4">4.5 (413)</div> -->
       </v-row>
 
+      <div class="py-1">
+        <p>Company: {{ spirit.company?.name }}</p>
+      </div>
+
+      <div class="py-1">
+        <p>Brand: {{  spirit.brand?.name }}</p>
+      </div>
+
       <DistilleryLink  v-for="distillery in spirit.distilleries" :key="distillery.id" :distillery="distillery" />
 
-      <div>
+      <div class="py-1">
         <v-chip
           v-if="spirit.spirit_type"
-          class="mb-2 mr-2 mt-3"
+          class="mr-2 mt-2"
           :color="spirit.spirit_type.colour"
           size="small"
           label
@@ -134,7 +149,7 @@ export default defineComponent({
 
         <v-chip
           v-if="spirit.spirit_style"
-          class="mb-2 mr-2"
+          class="mr-2 mt-2"
           :color="spirit.spirit_style.colour"
           size="small"
           label
@@ -144,9 +159,9 @@ export default defineComponent({
         </v-chip>
 
         <v-chip
-          class="mb-2"
           color="#8c4f00"
           size="small"
+          class="mt-2"
           label
           v-if="spirit.ppm"
         >
@@ -155,7 +170,13 @@ export default defineComponent({
         </v-chip>
       </div>
 
-      <div>{{ spirit.description || 'No description.' }}</div>
+      <div class="py-1">
+        <div>{{ spirit.description || 'No description.' }}</div>
+      </div>
     </v-card-text>
+
+    <v-card-actions>
+      <v-btn :href="spiritLink" color="deep-purple-lighten-2" text="More" block border></v-btn>
+    </v-card-actions>
   </v-card>
 </template>

@@ -48,7 +48,6 @@ export default defineComponent({
       <p>Brands: {{  company.brands }}</p>
     </v-card-item>
 
-
     <v-card-text>
       <v-row align="center" class="mx-0">
         <v-rating
