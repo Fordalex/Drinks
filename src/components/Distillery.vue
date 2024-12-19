@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 
 export default defineComponent({
   name: 'Distillery',
@@ -9,11 +9,15 @@ export default defineComponent({
       required: true,
     },
   },
-  computed: {
-    distilleryLink(id: any): string {
-      return `/Drinks/#/distilleries/${id}`
-    },
-  },
+  setup(props) {
+    const distilleryLink = computed(() => {
+      return `/Drinks/#/distilleries/${props.distillery.id}`
+    })
+
+    return {
+      distilleryLink,
+    }
+  }
 })
 </script>
 
@@ -60,7 +64,7 @@ export default defineComponent({
     </v-card-text>
 
     <v-card-actions>
-      <v-btn color="deep-purple-lighten-2" text="More" block border></v-btn>
+      <v-btn :href="distilleryLink" color="deep-purple-lighten-2" text="More" block border></v-btn>
     </v-card-actions>
   </v-card>
 </template>

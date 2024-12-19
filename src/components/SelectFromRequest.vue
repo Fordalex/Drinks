@@ -63,15 +63,12 @@ export default defineComponent({
         items.value = mappedData
         loading.value = false;
       } catch (error: any) {
-        console.error('Error fetching items:', error);
         loading.value = false;
         errorMessage.value = error instanceof Error ? error.message : String(error);
       }
     };
 
     const handleChange = (event: Event) => {
-      console.log('handleChange', event);
-      console.log('value', selected.value);
       const target = event.target as HTMLSelectElement;
       selected.value = selected.value;
       emit('update:modelValue', selected.value);

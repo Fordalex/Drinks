@@ -3,6 +3,7 @@ import { defineComponent, ref, computed } from 'vue';
 import type { PropType } from 'vue';
 import { useAccessTokenStore } from '@/stores/accessTokenStore';
 import SpiritForm from './SpiritForm.vue';
+import DistilleryLink from './DistilleryLink.vue';
 
 // Export the interface
 export interface SpiritInterface {
@@ -27,6 +28,7 @@ export default defineComponent({
   },
   components: {
     SpiritForm,
+    DistilleryLink,
   },
   setup(props) {
     const editedSpirit = ref({ ...props.spirit });
@@ -121,11 +123,12 @@ export default defineComponent({
           icon="mdi-factory"
           size="large"
         ></v-icon>
-        {{ spirit.distilleries.map((d) => d.name).join(', ') || 'No distillery.' }}
+        <DistilleryLink v-for="distillery in spirit.distilleries" :key="distillery.id" :distillery="distillery" />
       </p>
 
       <div>
         <v-chip
+          v-if="spirit.spirit_type"
           class="mb-2 mr-2"
           :color="spirit.spirit_type.colour"
           size="small"
@@ -133,9 +136,10 @@ export default defineComponent({
         >
           <v-icon :icon="spirit.spirit_type.icon" start></v-icon>
           {{ spirit.spirit_type.name }}
-        </v-chip>
+          </v-chip>
 
         <v-chip
+          v-if="spirit.spirit_style"
           class="mb-2 mr-2"
           :color="spirit.spirit_style.colour"
           size="small"
