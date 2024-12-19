@@ -111,25 +111,27 @@ export default defineComponent({
           color="amber"
           density="compact"
           size="small"
+          class="mb-4"
           half-increments
           readonly
         ></v-rating>
         <!-- <div class="text-grey ms-4">4.5 (413)</div> -->
       </v-row>
 
-      <p class="my-4 text-subtitle-1 spirit-factory">
+      <p class="text-subtitle-1 spirit-factory" v-for="distillery in spirit.distilleries" :key="distillery.id">
         <v-icon
           color="black"
           icon="mdi-factory"
           size="large"
+          class="mr-2"
         ></v-icon>
-        <DistilleryLink v-for="distillery in spirit.distilleries" :key="distillery.id" :distillery="distillery" />
+        <DistilleryLink :distillery="distillery" />
       </p>
 
       <div>
         <v-chip
           v-if="spirit.spirit_type"
-          class="mb-2 mr-2"
+          class="mb-2 mr-2 mt-3"
           :color="spirit.spirit_type.colour"
           size="small"
           label

@@ -32,7 +32,7 @@ export default defineComponent({
   },
   components: {
     RecordForm,
-    SelectFromRequest,
+    SelectFromRequest
   },
   setup(props) {
     const accessTokenStore = useAccessTokenStore();
@@ -122,21 +122,13 @@ export default defineComponent({
           v-model="record.spirit_style_id"
         />
 
-        <!-- a spirit can have muliple distilleries,  -->
-        <!-- <SelectFromRequest
+        <SelectFromRequest
           path="distilleries"
           key="name"
-          name="distillery"
-          v-model="selectedDistillery"
-        /> -->
-
-        <v-autocomplete
-          v-model="value"
-          :items="items"
-          label="Searchable Chips"
-          chips
-          multiple
-        ></v-autocomplete>
+          name="distillery_id"
+          :multiple="true"
+          v-model="record.distillery_ids"
+        />
       </v-form>
     </template>
   </RecordForm>

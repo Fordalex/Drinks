@@ -17,6 +17,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
     modelValue: {
       type: String,
     },
@@ -34,8 +38,6 @@ export default defineComponent({
     let retries = 0;
 
     const fetchItems = async () => {
-      if (!accessTokenStore.accessToken) return; // No token yet, wait until token is available
-
       loading.value = true;
       errorMessage.value = null;
 
@@ -61,10 +63,10 @@ export default defineComponent({
         const data = await response.json();
         const mappedData = data.map((item: any) => ({ id: item['id'], name: item['name'] }));
         items.value = mappedData
-        loading.value = false;
       } catch (error: any) {
-        loading.value = false;
         errorMessage.value = error instanceof Error ? error.message : String(error);
+      } finally {
+        loading.value = false;
       }
     };
 
@@ -129,6 +131,7 @@ export default defineComponent({
     :name="$props.name"
     outlined
     dense
+    :multiple="$props.multiple"
     clearable
   ></v-select>
 </template>
