@@ -71,7 +71,7 @@ export default defineComponent({
       </v-col>
 
       <v-col cols="6" class="text-right">
-        <SpiritForm :spirit="spirit">
+        <SpiritForm>
           <template #trigger="{ openDialog }">
             <v-btn
               density="comfortable"
