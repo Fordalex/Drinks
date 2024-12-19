@@ -3,12 +3,14 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { useAccessTokenStore } from '@/stores/accessTokenStore'
 import Map from '../components/Map.vue'
 import Company from '@/components/Company.vue'
+import CompanyForm from '@/components/CompanyForm.vue'
 
 export default defineComponent({
   name: 'HomeView',
   components: {
     Map,
     Company,
+    CompanyForm,
   },
   setup() {
     const accessTokenStore = useAccessTokenStore()
@@ -52,8 +54,21 @@ export default defineComponent({
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
+      <v-col cols="6">
         <h1>Companies</h1>
+      </v-col>
+
+      <v-col cols="6" class="text-right">
+        <CompanyForm :company="company">
+          <template #trigger="{ openDialog }">
+            <v-btn
+              density="comfortable"
+              variant="tonal"
+              text="New Company"
+              @click="openDialog"
+            ></v-btn>
+          </template>
+        </CompanyForm>
       </v-col>
     </v-row>
   </v-container>

@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import CompanyForm from './CompanyForm.vue';
 
 export default defineComponent({
   name: 'Company',
@@ -8,6 +9,9 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+  },
+  components: {
+    CompanyForm,
   },
   setup(props) {
     const companyLink = computed(() => {
@@ -28,6 +32,19 @@ export default defineComponent({
 
 <template>
   <v-card>
+    <v-col cols="12">
+      <CompanyForm :company="company">
+        <template #trigger="{ openDialog }">
+          <v-btn
+            density="comfortable"
+            icon="mdi-dots-vertical"
+            variant="tonal"
+            @click="openDialog"
+          ></v-btn>
+        </template>
+      </CompanyForm>
+    </v-col>
+
     <template v-slot:loader="{ isActive }">
       <v-progress-linear
         :active="isActive"
@@ -37,7 +54,7 @@ export default defineComponent({
       ></v-progress-linear>
     </template>
 
-    <v-img height="250" :src="company.image_link" cover></v-img>
+    <v-img height="250" :src="company.logo" cover></v-img>
 
     <v-card-item>
       <v-card-title>{{ company.name }}</v-card-title>
