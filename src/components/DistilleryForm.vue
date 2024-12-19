@@ -83,7 +83,7 @@ export default defineComponent({
       <v-form>
         <v-text-field v-model="record.name" label="Name" required></v-text-field>
 
-        <v-text-field v-model="record.image" label="Image"></v-text-field>
+        <v-text-field v-model="record.image_link" label="Image"></v-text-field>
 
         <v-text-field v-model="record.lng" label="Longitude"></v-text-field>
 
