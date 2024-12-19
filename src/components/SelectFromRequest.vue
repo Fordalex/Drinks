@@ -26,7 +26,7 @@ export default defineComponent({
     const accessTokenStore = useAccessTokenStore();
 
     const items = ref<string[]>([]);
-    const selected = ref(props.value);
+    const selected = ref(props.modelValue);
     const loading = ref<boolean>(true);
     const errorMessage = ref<string | null>(null);
 
@@ -60,7 +60,6 @@ export default defineComponent({
 
         const data = await response.json();
         const mappedData = data.map((item: any) => ({ id: item['id'], name: item['name'] }));
-        console.log('mappedData', mappedData);
         items.value = mappedData
         loading.value = false;
       } catch (error: any) {
