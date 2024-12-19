@@ -1,45 +1,92 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { useAccessTokenStore } from '@/stores/accessTokenStore'
 import Map from '../components/Map.vue'
+import Company from '@/components/Company.vue';
 
 export default defineComponent({
   name: 'HomeView',
   components: {
     Map,
+    Company,
   },
-  data() {
-    return {
-      companies: [] as Array<any>,
-      pins: [] as Array<any>,
-    }
-  },
-  mounted() {
-    this.fetchSpirits()
-  },
-  methods: {
-    async fetchSpirits() {
-      try {
-        const passwordStore = useAccessTokenStore()
-        const response = await fetch(
-          `https://api.allorigins.win/raw?url=${encodeURIComponent(
-            `https://api.fordsdevelopment.co.uk/drinks/companies?password=${passwordStore.password}`,
-          )}`,
-        )
-        this.companies = await response.json()
-      } catch (error) {
-        console.error('Error fetching companies:', error)
+  setup() {
+    const accessTokenStore = useAccessTokenStore();
+    const companies = ref<Array<any>>([]);
+    const errorMessage = ref<string | null>(null);
+    const loading = ref(true);
+
+    const fetchCompanies = async () => {
+      const apiUrl = `${import.meta.env.VITE_API_URL}/companies`
+      const response = await fetch(apiUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessTokenStore.accessToken}`,
+        },
+      })
+
+      if (response.ok) {
+        companies.value = await response.json();
+        loading.value = false;
+      } else {
+        const responseBody = await response.json()
+        errorMessage.value = responseBody.error
+        loading.value = false
       }
-    },
-  },
+    }
+
+    onMounted(() => {
+      fetchCompanies()
+    })
+
+    return {
+      fetchCompanies,
+      companies,
+      errorMessage,
+      loading,
+    }
+  }
 })
 </script>
 
 <template>
-  <main>
-    <div v-if="companies.length > 0" class="row m-0 g-2 p-2">
-      <div v-for="(company, index) in companies" :key="index">{{ company.name }}</div>
-    </div>
-    <p v-else>Loading companies...</p>
-  </main>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <h1>Companies</h1>
+      </v-col>
+    </v-row>
+  </v-container>
+
+  <v-container v-if="!loading">
+    <v-row>
+      <v-col cols="12">
+        <v-alert
+          v-if="errorMessage"
+          type="error"
+          dismissible
+          border="left"
+          elevation="2"
+        >
+          {{ errorMessage }}
+        </v-alert>
+      </v-col>
+    </v-row>
+  </v-container>
+
+  <v-container v-if="!loading">
+    <v-row>
+      <v-col cols="12" sm="6" md="4" lg="3" v-for="company in companies" :key="company.id">
+        <Company :company="company"></Company>
+      </v-col>
+    </v-row>
+  </v-container>
+
+  <v-container v-if="loading">
+    <v-row>
+      <v-col cols="12" sm="6" md="4" lg="3" v-for="n in 16">
+        <v-skeleton-loader class="border" type="image, article"></v-skeleton-loader>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

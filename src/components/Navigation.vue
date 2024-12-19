@@ -61,11 +61,18 @@ export default defineComponent({
               to="/dashboard"
             ></v-list-item>
             <v-list-item
-              prepend-icon="mdi-liquor"
-              title="Spirits"
-              value="Spirits"
+              prepend-icon="mdi-card-account-details"
+              title="Companies"
+              value="Companies"
               router
-              to="/spirits"
+              to="/companies"
+            ></v-list-item>
+            <v-list-item
+              prepend-icon="mdi-watermark"
+              title="Brands"
+              value="Brands"
+              router
+              to="/brands"
             ></v-list-item>
             <v-list-item
               prepend-icon="mdi-factory"
@@ -73,6 +80,13 @@ export default defineComponent({
               value="Distilleries"
               router
               to="/distilleries"
+            ></v-list-item>
+            <v-list-item
+              prepend-icon="mdi-liquor"
+              title="Spirits"
+              value="Spirits"
+              router
+              to="/spirits"
             ></v-list-item>
           </v-list>
         </v-navigation-drawer>
@@ -112,11 +126,17 @@ export default defineComponent({
         >
           <v-list-item-title>Dashboard</v-list-item-title>
         </v-list-item>
-        <v-list-item prepend-icon="mdi-liquor" router to="/spirits" @click="drawer = false">
-          <v-list-item-title>Spirits</v-list-item-title>
+        <v-list-item prepend-icon="mdi-card-account-details" router to="/companies" @click="drawer = false">
+          <v-list-item-title>Companies</v-list-item-title>
+        </v-list-item>
+        <v-list-item prepend-icon="mdi-watermark" router to="/brands" @click="drawer = false">
+          <v-list-item-title>Brands</v-list-item-title>
         </v-list-item>
         <v-list-item prepend-icon="mdi-factory" router to="/distilleries" @click="drawer = false">
           <v-list-item-title>Distilleries</v-list-item-title>
+        </v-list-item>
+        <v-list-item prepend-icon="mdi-liquor" router to="/spirits" @click="drawer = false">
+          <v-list-item-title>Spirits</v-list-item-title>
         </v-list-item>
       </v-list>
 
