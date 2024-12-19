@@ -3,6 +3,7 @@ import { defineComponent } from 'vue'
 import { useAccessTokenStore } from '@/stores/accessTokenStore'
 import Distillery from '../components/Distillery.vue'
 import Map from '../components/Map.vue'
+import DistilleryForm from '../components/DistilleryForm.vue'
 
 interface Pin {
   lat: number
@@ -15,6 +16,7 @@ export default defineComponent({
   components: {
     Distillery,
     Map,
+    DistilleryForm,
   },
   data() {
     return {
@@ -81,10 +83,25 @@ export default defineComponent({
     <div v-if="distilleries.length > 0" class="row m-0 g-2 p-2">
       <v-container>
         <v-row>
-          <v-col cols="12">
+          <v-col cols="6">
             <h1>Distilleries</h1>
           </v-col>
 
+          <v-col cols="6" class="text-right">
+            <DistilleryForm :distillery="distillery">
+              <template #trigger="{ openDialog }">
+                <v-btn
+                  density="comfortable"
+                  variant="tonal"
+                  text="New Distillery"
+                  @click="openDialog"
+                ></v-btn>
+              </template>
+            </DistilleryForm>
+          </v-col>
+        </v-row>
+
+        <v-row>
           <v-col
             cols="12"
             sm="3"

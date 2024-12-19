@@ -23,7 +23,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <router-link :to="{ name: 'distillery', params: { id: distillery.id } }">
-    {{ distillery.name }}
-  </router-link>
+  <p class="text-subtitle-1 spirit-factory">
+    <v-icon
+      color="black"
+      icon="mdi-factory"
+      size="large"
+      class="mr-2"
+    ></v-icon>
+    <router-link :to="{ name: 'distillery', params: { id: distillery.id } }">
+      {{ distillery.name }}
+    </router-link>
+  </p>
 </template>

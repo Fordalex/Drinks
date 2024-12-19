@@ -118,15 +118,7 @@ export default defineComponent({
         <!-- <div class="text-grey ms-4">4.5 (413)</div> -->
       </v-row>
 
-      <p class="text-subtitle-1 spirit-factory" v-for="distillery in spirit.distilleries" :key="distillery.id">
-        <v-icon
-          color="black"
-          icon="mdi-factory"
-          size="large"
-          class="mr-2"
-        ></v-icon>
-        <DistilleryLink :distillery="distillery" />
-      </p>
+      <DistilleryLink  v-for="distillery in spirit.distilleries" :key="distillery.id" :distillery="distillery" />
 
       <div>
         <v-chip

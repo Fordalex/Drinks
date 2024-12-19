@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import DistilleryForm from './DistilleryForm.vue'
 
 export default defineComponent({
   name: 'Distillery',
@@ -8,6 +9,9 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+  },
+  components: {
+    DistilleryForm,
   },
   setup(props) {
     const distilleryLink = computed(() => {
@@ -23,6 +27,19 @@ export default defineComponent({
 
 <template>
   <v-card>
+    <v-col cols="12">
+      <DistilleryForm :distillery="distillery">
+        <template #trigger="{ openDialog }">
+          <v-btn
+            density="comfortable"
+            icon="mdi-dots-vertical"
+            variant="tonal"
+            @click="openDialog"
+          ></v-btn>
+        </template>
+      </DistilleryForm>
+    </v-col>
+
     <template v-slot:loader="{ isActive }">
       <v-progress-linear
         :active="isActive"
@@ -37,31 +54,8 @@ export default defineComponent({
     <v-card-item>
       <v-card-title>{{ distillery.name }}</v-card-title>
 
-      <v-card-subtitle>
-        <span class="me-1">Local Favorite</span>
-
-        <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
-      </v-card-subtitle>
+      <p>Region: {{ distillery.region?.name }}</p>
     </v-card-item>
-
-    <v-card-text>
-      <v-row align="center" class="mx-0">
-        <v-rating
-          :model-value="4.5"
-          color="amber"
-          density="compact"
-          size="small"
-          half-increments
-          readonly
-        ></v-rating>
-
-        <div class="text-grey ms-4">4.5 (413)</div>
-      </v-row>
-
-      <div class="my-4 text-subtitle-1">$ • Italian, Cafe</div>
-
-      <div>{{ distillery.description || 'No description.' }}</div>
-    </v-card-text>
 
     <v-card-actions>
       <v-btn :href="distilleryLink" color="deep-purple-lighten-2" text="More" block border></v-btn>

@@ -87,7 +87,7 @@ export default defineComponent({
     </v-row>
 
     <v-row>
-      <v-col cols="3">
+      <v-col cols="12" md="4" lg="3">
         <SelectFromRequest
           path="spirit_types"
           key="name"
@@ -95,7 +95,7 @@ export default defineComponent({
         />
       </v-col>
 
-      <v-col cols="3">
+      <v-col cols="12" md="4" lg="3">
         <SelectFromRequest
           path="spirit_styles"
           key="name"
@@ -103,7 +103,7 @@ export default defineComponent({
         />
       </v-col>
 
-      <v-col cols="3">
+      <v-col cols="12" md="4" lg="3">
         <SelectFromRequest
           path="distilleries"
           key="name"
@@ -111,7 +111,7 @@ export default defineComponent({
         />
       </v-col>
 
-      <v-col cols="3" class="d-flex align-center">
+      <v-col cols="12" md="4" lg="3" class="d-flex align-center">
         <v-btn
           @click="fetchSpirits"
           color="primary"

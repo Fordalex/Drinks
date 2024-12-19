@@ -4,7 +4,7 @@ import RecordForm from './RecordForm.vue';
 import { useAccessTokenStore } from '@/stores/accessTokenStore';
 import SelectFromRequest from '@/components/SelectFromRequest.vue';
 
-export interface Spirit {
+export interface Distillery {
   id?: number; // Optional for new records
   name: string;
   description: string;
@@ -13,19 +13,15 @@ export interface Spirit {
 }
 
 export default defineComponent({
-  name: 'SpiritForm',
+  name: 'DistilleryForm',
   props: {
-    spirit: {
-      type: Object as () => Spirit,
+    distillery: {
+      type: Object as () => Distillery,
       required: false, // Optional for adding new records
       default: () => (
         {
           name: '',
-          description: '',
           image: '',
-          rating: 0,
-          spirit_type_id: null,
-          spirit_style_id: null,
         }
       ), // Default values for new records
     },
@@ -36,22 +32,21 @@ export default defineComponent({
   },
   setup(props) {
     const accessTokenStore = useAccessTokenStore();
-    const items = ['Vanilla', 'Caramel', 'Spicy', 'Fruity', 'Floral', 'Herbal', 'Smoky', 'Woody'];
     const value = ref<string[]>([]);
 
     // Determine if we're editing or adding a new record
-    const isEditMode = computed(() => !!props.spirit.id);
+    const isEditMode = computed(() => !!props.distillery.id);
 
     // Compute the endpoint and HTTP method
     const endpoint = computed(() =>
       isEditMode.value
-        ? `${import.meta.env.VITE_API_URL}/spirits/${props.spirit.id}` // Edit endpoint
-        : `${import.meta.env.VITE_API_URL}/spirits` // Add endpoint
+        ? `${import.meta.env.VITE_API_URL}/distilleries/${props.distillery.id}` // Edit endpoint
+        : `${import.meta.env.VITE_API_URL}/distilleries` // Add endpoint
     );
     const method = computed(() => (isEditMode.value ? 'PUT' : 'POST'));
 
     // Handle save event
-    const handleSave = async (savedRecord: Spirit) => {
+    const handleSave = async (savedRecord: Distillery) => {
       console.log(`${isEditMode.value ? 'Updated' : 'Created'} record:`, savedRecord);
 
       // Reload the page to reflect the changes
@@ -63,7 +58,6 @@ export default defineComponent({
       endpoint,
       method,
       handleSave,
-      items,
       value
     };
   },
@@ -72,56 +66,34 @@ export default defineComponent({
 
 <template>
   <RecordForm
-    :record="spirit"
+    :record="distillery"
     :endpoint="endpoint"
     :method="method"
     @save="handleSave"
   >
     <template #trigger="{ openDialog }">
       <slot name="trigger" :openDialog="openDialog">
-        <v-btn color="primary">{{ isEditMode ? 'Edit Spirit' : 'Add Spirit' }}</v-btn>
+        <v-btn color="primary">{{ isEditMode ? 'Edit Spirit' : 'Add Distillery' }}</v-btn>
       </slot>
     </template>
     <template #title>
-      <span>{{ isEditMode ? 'Edit Spirit' : 'Add New Spirit' }}</span>
+      <span>{{ isEditMode ? 'Edit Distillery' : 'Add New Distillery' }}</span>
     </template>
     <template #form="{ record }">
       <v-form>
         <v-text-field v-model="record.name" label="Name" required></v-text-field>
 
-        <v-textarea
-          v-model="record.description"
-          label="Description"
-          rows="4"
-          required
-        ></v-textarea>
-
         <v-text-field v-model="record.image" label="Image"></v-text-field>
 
-        <v-text-field v-model="record.rating" label="Rating"></v-text-field>
+        <v-text-field v-model="record.lng" label="Longitude"></v-text-field>
 
-        <v-text-field v-model="record.ppm" label="Ppm"></v-text-field>
-
-        <SelectFromRequest
-          path="spirit_types"
-          key="name"
-          name="spirit_type_id"
-          v-model="record.spirit_type_id"
-        />
+        <v-text-field v-model="record.lat" label="Latitude"></v-text-field>
 
         <SelectFromRequest
-          path="spirit_styles"
+          path="regions"
           key="name"
-          name="spirit_style_id"
-          v-model="record.spirit_style_id"
-        />
-
-        <SelectFromRequest
-          path="distilleries"
-          key="name"
-          name="distillery_id"
-          :multiple="true"
-          v-model="record.distillery_ids"
+          name="region_id"
+          v-model="record.region_id"
         />
       </v-form>
     </template>
