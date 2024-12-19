@@ -123,6 +123,13 @@ export default defineComponent({
           :multiple="true"
           v-model="record.distillery_ids"
         />
+
+        <SelectFromRequest
+          path="brands"
+          key="name"
+          name="brand_id"
+          v-model="record.brand_id"
+        />
       </v-form>
     </template>
   </RecordForm>
