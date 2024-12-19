@@ -1,15 +1,15 @@
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
-import RecordForm from './RecordForm.vue';
-import { useAccessTokenStore } from '@/stores/accessTokenStore';
-import SelectFromRequest from '@/components/SelectFromRequest.vue';
+import { defineComponent, computed, ref } from 'vue'
+import RecordForm from './RecordForm.vue'
+import { useAccessTokenStore } from '@/stores/accessTokenStore'
+import SelectFromRequest from '@/components/SelectFromRequest.vue'
 
 export interface Spirit {
-  id?: number; // Optional for new records
-  name: string;
-  description: string;
-  image: string;
-  rating: number;
+  id?: number // Optional for new records
+  name: string
+  description: string
+  image: string
+  rating: number
 }
 
 export default defineComponent({
@@ -18,45 +18,44 @@ export default defineComponent({
     spirit: {
       type: Object as () => Spirit,
       required: false, // Optional for adding new records
-      default: () => (
-        {
-          name: '',
-          description: '',
-          image: '',
-          rating: 0,
-          spirit_type_id: null,
-          spirit_style_id: null,
-        }
-      ), // Default values for new records
+      default: () => ({
+        name: '',
+        description: '',
+        image: '',
+        rating: 0,
+        spirit_type_id: null,
+        spirit_style_id: null,
+      }), // Default values for new records
     },
   },
   components: {
     RecordForm,
-    SelectFromRequest
+    SelectFromRequest,
   },
   setup(props) {
-    const accessTokenStore = useAccessTokenStore();
-    const items = ['Vanilla', 'Caramel', 'Spicy', 'Fruity', 'Floral', 'Herbal', 'Smoky', 'Woody'];
-    const value = ref<string[]>([]);
+    const accessTokenStore = useAccessTokenStore()
+    const items = ['Vanilla', 'Caramel', 'Spicy', 'Fruity', 'Floral', 'Herbal', 'Smoky', 'Woody']
+    const value = ref<string[]>([])
 
     // Determine if we're editing or adding a new record
-    const isEditMode = computed(() => !!props.spirit.id);
+    const isEditMode = computed(() => !!props.spirit.id)
 
     // Compute the endpoint and HTTP method
-    const endpoint = computed(() =>
-      isEditMode.value
-        ? `${import.meta.env.VITE_API_URL}/spirits/${props.spirit.id}` // Edit endpoint
-        : `${import.meta.env.VITE_API_URL}/spirits` // Add endpoint
-    );
-    const method = computed(() => (isEditMode.value ? 'PUT' : 'POST'));
+    const endpoint = computed(
+      () =>
+        isEditMode.value
+          ? `${import.meta.env.VITE_API_URL}/spirits/${props.spirit.id}` // Edit endpoint
+          : `${import.meta.env.VITE_API_URL}/spirits`, // Add endpoint
+    )
+    const method = computed(() => (isEditMode.value ? 'PUT' : 'POST'))
 
     // Handle save event
     const handleSave = async (savedRecord: Spirit) => {
-      console.log(`${isEditMode.value ? 'Updated' : 'Created'} record:`, savedRecord);
+      console.log(`${isEditMode.value ? 'Updated' : 'Created'} record:`, savedRecord)
 
       // Reload the page to reflect the changes
-      window.location.reload();
-    };
+      window.location.reload()
+    }
 
     return {
       isEditMode,
@@ -64,19 +63,14 @@ export default defineComponent({
       method,
       handleSave,
       items,
-      value
-    };
+      value,
+    }
   },
-});
+})
 </script>
 
 <template>
-  <RecordForm
-    :record="spirit"
-    :endpoint="endpoint"
-    :method="method"
-    @save="handleSave"
-  >
+  <RecordForm :record="spirit" :endpoint="endpoint" :method="method" @save="handleSave">
     <template #trigger="{ openDialog }">
       <slot name="trigger" :openDialog="openDialog">
         <v-btn color="primary">{{ isEditMode ? 'Edit Spirit' : 'Add Spirit' }}</v-btn>
@@ -89,12 +83,7 @@ export default defineComponent({
       <v-form>
         <v-text-field v-model="record.name" label="Name" required></v-text-field>
 
-        <v-textarea
-          v-model="record.description"
-          label="Description"
-          rows="4"
-          required
-        ></v-textarea>
+        <v-textarea v-model="record.description" label="Description" rows="4" required></v-textarea>
 
         <v-text-field v-model="record.image" label="Image"></v-text-field>
 
@@ -124,12 +113,7 @@ export default defineComponent({
           v-model="record.distillery_ids"
         />
 
-        <SelectFromRequest
-          path="brands"
-          key="name"
-          name="brand_id"
-          v-model="record.brand_id"
-        />
+        <SelectFromRequest path="brands" key="name" name="brand_id" v-model="record.brand_id" />
       </v-form>
     </template>
   </RecordForm>

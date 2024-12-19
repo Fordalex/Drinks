@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, watch } from 'vue';
-import { useAccessTokenStore } from '@/stores/accessTokenStore';
+import { defineComponent, ref, onMounted, watch } from 'vue'
+import { useAccessTokenStore } from '@/stores/accessTokenStore'
 
 export default defineComponent({
   name: 'SelectFromRequest',
@@ -27,19 +27,19 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
-    const accessTokenStore = useAccessTokenStore();
+    const accessTokenStore = useAccessTokenStore()
 
-    const items = ref<string[]>([]);
-    const selected = ref(props.modelValue);
-    const loading = ref<boolean>(true);
-    const errorMessage = ref<string | null>(null);
+    const items = ref<string[]>([])
+    const selected = ref(props.modelValue)
+    const loading = ref<boolean>(true)
+    const errorMessage = ref<string | null>(null)
 
-    const MAX_RETRIES = 3;
-    let retries = 0;
+    const MAX_RETRIES = 3
+    let retries = 0
 
     const fetchItems = async () => {
-      loading.value = true;
-      errorMessage.value = null;
+      loading.value = true
+      errorMessage.value = null
 
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/${props.path}`, {
@@ -47,64 +47,64 @@ export default defineComponent({
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessTokenStore.accessToken}`,
           },
-        });
+        })
 
         if (!response.ok) {
           // If it's a 500 error and we haven't exceeded retries, retry after a delay
           if (response.status === 500 && retries < MAX_RETRIES) {
-            retries++;
-            setTimeout(fetchItems, 500); // Retry after 2 seconds
-            return;
+            retries++
+            setTimeout(fetchItems, 500) // Retry after 2 seconds
+            return
           }
 
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        const data = await response.json();
-        const mappedData = data.map((item: any) => ({ id: item['id'], name: item['name'] }));
+        const data = await response.json()
+        const mappedData = data.map((item: any) => ({ id: item['id'], name: item['name'] }))
         items.value = mappedData
       } catch (error: any) {
-        errorMessage.value = error instanceof Error ? error.message : String(error);
+        errorMessage.value = error instanceof Error ? error.message : String(error)
       } finally {
-        loading.value = false;
+        loading.value = false
       }
-    };
+    }
 
     const handleChange = (event: Event) => {
-      const target = event.target as HTMLSelectElement;
-      selected.value = selected.value;
-      emit('update:modelValue', selected.value);
-    };
+      const target = event.target as HTMLSelectElement
+      selected.value = selected.value
+      emit('update:modelValue', selected.value)
+    }
 
     // Fetch data once path changes and when token becomes available
     watch(
       () => props.path,
       () => {
         if (accessTokenStore.accessToken) {
-          fetchItems();
+          fetchItems()
         }
       },
-      { immediate: true }
-    );
+      { immediate: true },
+    )
 
     // Watch for token availability
     watch(
       () => accessTokenStore.accessToken,
       (newToken) => {
         if (newToken) {
-          fetchItems();
+          fetchItems()
         }
       },
-      { immediate: true }
-    );
+      { immediate: true },
+    )
 
     // Update selected value when the value prop changes
     watch(
       () => props.value,
       (newValue) => {
-        selected.value = newValue;
-      }
-    );
+        selected.value = newValue
+      },
+    )
 
     return {
       items,
@@ -112,9 +112,9 @@ export default defineComponent({
       handleChange,
       loading,
       errorMessage,
-    };
+    }
   },
-});
+})
 </script>
 
 <template>

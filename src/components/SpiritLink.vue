@@ -17,7 +17,7 @@ export default defineComponent({
     return {
       spiritLink,
     }
-  }
+  },
 })
 </script>
 

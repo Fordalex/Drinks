@@ -22,7 +22,7 @@ export default defineComponent({
   },
   methods: {
     async fetchDistillery() {
-      const route = useRoute();
+      const route = useRoute()
       const id = route.params.id
       const accessTokenStore = useAccessTokenStore()
       const apiUrl = `${import.meta.env.VITE_API_URL}/distilleries/${id}`

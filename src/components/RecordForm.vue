@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
-import { useAccessTokenStore } from '@/stores/accessTokenStore';
+import { defineComponent, ref, watch } from 'vue'
+import { useAccessTokenStore } from '@/stores/accessTokenStore'
 
 export default defineComponent({
   name: 'RecordForm',
@@ -19,26 +19,26 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const dialog = ref(false);
-    const localRecord = ref({ ...props.record });
-    const errorMessage = ref<string | null>(null);
-    const accessTokenStore = useAccessTokenStore();
+    const dialog = ref(false)
+    const localRecord = ref({ ...props.record })
+    const errorMessage = ref<string | null>(null)
+    const accessTokenStore = useAccessTokenStore()
 
     watch(
       () => props.record,
       (newRecord) => {
-        localRecord.value = { ...newRecord };
+        localRecord.value = { ...newRecord }
       },
-      { deep: true, immediate: true }
-    );
+      { deep: true, immediate: true },
+    )
 
     const openDialog = () => {
-      dialog.value = true;
-    };
+      dialog.value = true
+    }
 
     const saveRecord = async () => {
       console.error(JSON.stringify(localRecord.value))
-      errorMessage.value = null;
+      errorMessage.value = null
       const response = await fetch(props.endpoint, {
         method: props.method,
         headers: {
@@ -46,17 +46,17 @@ export default defineComponent({
           Authorization: `Bearer ${accessTokenStore.accessToken}`, // Include the access token
         },
         body: JSON.stringify(localRecord.value),
-      });
+      })
       console.log(JSON.stringify(localRecord.value))
 
       if (!response.ok) {
         console.log(JSON.stringify(localRecord.value))
-        errorMessage.value = await response.json();
+        errorMessage.value = await response.json()
       } else {
         console.log(JSON.stringify(localRecord.value))
-        window.location.reload();
+        window.location.reload()
       }
-    };
+    }
 
     return {
       dialog,
@@ -64,9 +64,9 @@ export default defineComponent({
       openDialog,
       saveRecord,
       errorMessage,
-    };
+    }
   },
-});
+})
 </script>
 
 <template>

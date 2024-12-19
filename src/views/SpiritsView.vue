@@ -5,7 +5,6 @@ import Spirit from '../components/Spirit.vue'
 import SpiritForm from '@/components/SpiritForm.vue'
 import SelectFromRequest from '@/components/SelectFromRequest.vue'
 
-
 export default defineComponent({
   name: 'SpiritsView',
   components: {
@@ -14,13 +13,13 @@ export default defineComponent({
     SelectFromRequest,
   },
   setup() {
-    const spirits = ref<Array<any>>([]);
-    const loading = ref(true);
-    const endpoint = computed(() => `${import.meta.env.VITE_API_URL}/spirits`);
-    const errorMessage = ref<string | null>(null);
-    const selectedSpiritType = ref<Array<any>>([]);
-    const selectedSpiritStyle = ref<Array<any>>([]);
-    const selectedDistillery = ref<Array<any>>([]);
+    const spirits = ref<Array<any>>([])
+    const loading = ref(true)
+    const endpoint = computed(() => `${import.meta.env.VITE_API_URL}/spirits`)
+    const errorMessage = ref<string | null>(null)
+    const selectedSpiritType = ref<Array<any>>([])
+    const selectedSpiritStyle = ref<Array<any>>([])
+    const selectedDistillery = ref<Array<any>>([])
 
     const fetchSpirits = async () => {
       const accessTokenStore = useAccessTokenStore()
@@ -32,15 +31,14 @@ export default defineComponent({
         },
       })
 
-
       if (response.ok) {
-        loading.value = false;
-        spirits.value = await response.json();
+        loading.value = false
+        spirits.value = await response.json()
       } else {
         loading.value = false
-        const responseBody = await response.json();
-        errorMessage.value = responseBody.error;
-        if (responseBody.error === "Access token has expired or is invalid.") {
+        const responseBody = await response.json()
+        errorMessage.value = responseBody.error
+        if (responseBody.error === 'Access token has expired or is invalid.') {
           console.log('Access token has expired or is invalid.')
           accessTokenStore.$reset()
           accessTokenStore.clearState()
@@ -88,37 +86,19 @@ export default defineComponent({
 
     <v-row>
       <v-col cols="12" md="4" lg="3">
-        <SelectFromRequest
-          path="spirit_types"
-          key="name"
-          v-model="selectedSpiritType"
-        />
+        <SelectFromRequest path="spirit_types" key="name" v-model="selectedSpiritType" />
       </v-col>
 
       <v-col cols="12" md="4" lg="3">
-        <SelectFromRequest
-          path="spirit_styles"
-          key="name"
-          v-model="selectedSpiritStyle"
-        />
+        <SelectFromRequest path="spirit_styles" key="name" v-model="selectedSpiritStyle" />
       </v-col>
 
       <v-col cols="12" md="4" lg="3">
-        <SelectFromRequest
-          path="distilleries"
-          key="name"
-          v-model="selectedDistillery"
-        />
+        <SelectFromRequest path="distilleries" key="name" v-model="selectedDistillery" />
       </v-col>
 
       <v-col cols="12" md="4" lg="3" class="d-flex align-center">
-        <v-btn
-          @click="fetchSpirits"
-          color="primary"
-          class="width-100"
-          dark
-          elevation="2"
-        >
+        <v-btn @click="fetchSpirits" color="primary" class="width-100" dark elevation="2">
           Search
         </v-btn>
       </v-col>
@@ -128,13 +108,7 @@ export default defineComponent({
   <v-container v-if="!loading">
     <v-row>
       <v-col cols="12">
-        <v-alert
-          v-if="errorMessage"
-          type="error"
-          dismissible
-          border="left"
-          elevation="2"
-        >
+        <v-alert v-if="errorMessage" type="error" dismissible border="left" elevation="2">
           {{ errorMessage }}
         </v-alert>
       </v-col>
@@ -142,7 +116,9 @@ export default defineComponent({
 
     <v-row>
       <v-col cols="12">
-        <p v-if="spirits.length == 0">You currently have no drinks registered, press the button above to add drinks.</p>
+        <p v-if="spirits.length == 0">
+          You currently have no drinks registered, press the button above to add drinks.
+        </p>
       </v-col>
     </v-row>
 

@@ -40,14 +40,16 @@ export default defineComponent({
 
       if (response.ok) {
         this.distilleries = await response.json()
-        this.pins = this.distilleries.filter((d) => {
-          if (d.lat) {
-            return d
-          }
-        }).map((distillery: any) => ({
-          lat: parseFloat(distillery.lat),
-          lng: parseFloat(distillery.lng),
-          body: `<h4>${distillery.name}</h4>
+        this.pins = this.distilleries
+          .filter((d) => {
+            if (d.lat) {
+              return d
+            }
+          })
+          .map((distillery: any) => ({
+            lat: parseFloat(distillery.lat),
+            lng: parseFloat(distillery.lng),
+            body: `<h4>${distillery.name}</h4>
                 <ul>
                   ${distillery.spirits
                     .map(
@@ -59,8 +61,8 @@ export default defineComponent({
                     )
                     .join('')}
                 </ul>
-          `
-        }));
+          `,
+          }))
       } else {
         const responseBody = await response.json()
         console.error(responseBody.error)

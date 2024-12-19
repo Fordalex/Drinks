@@ -2,7 +2,7 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import { useAccessTokenStore } from '@/stores/accessTokenStore'
 import Map from '../components/Map.vue'
-import Company from '@/components/Company.vue';
+import Company from '@/components/Company.vue'
 
 export default defineComponent({
   name: 'HomeView',
@@ -11,10 +11,10 @@ export default defineComponent({
     Company,
   },
   setup() {
-    const accessTokenStore = useAccessTokenStore();
-    const companies = ref<Array<any>>([]);
-    const errorMessage = ref<string | null>(null);
-    const loading = ref(true);
+    const accessTokenStore = useAccessTokenStore()
+    const companies = ref<Array<any>>([])
+    const errorMessage = ref<string | null>(null)
+    const loading = ref(true)
 
     const fetchCompanies = async () => {
       const apiUrl = `${import.meta.env.VITE_API_URL}/companies`
@@ -26,8 +26,8 @@ export default defineComponent({
       })
 
       if (response.ok) {
-        companies.value = await response.json();
-        loading.value = false;
+        companies.value = await response.json()
+        loading.value = false
       } else {
         const responseBody = await response.json()
         errorMessage.value = responseBody.error
@@ -45,7 +45,7 @@ export default defineComponent({
       errorMessage,
       loading,
     }
-  }
+  },
 })
 </script>
 
@@ -61,13 +61,7 @@ export default defineComponent({
   <v-container v-if="!loading">
     <v-row>
       <v-col cols="12">
-        <v-alert
-          v-if="errorMessage"
-          type="error"
-          dismissible
-          border="left"
-          elevation="2"
-        >
+        <v-alert v-if="errorMessage" type="error" dismissible border="left" elevation="2">
           {{ errorMessage }}
         </v-alert>
       </v-col>

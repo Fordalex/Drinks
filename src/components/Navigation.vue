@@ -53,6 +53,8 @@ export default defineComponent({
           <v-divider></v-divider>
 
           <v-list density="compact" nav>
+            <v-list-subheader>Personal</v-list-subheader>
+
             <v-list-item
               prepend-icon="mdi-view-dashboard"
               title="Dashboard"
@@ -60,6 +62,10 @@ export default defineComponent({
               router
               to="/dashboard"
             ></v-list-item>
+          </v-list>
+          <v-list density="compact" nav>
+            <v-list-subheader>Business</v-list-subheader>
+
             <v-list-item
               prepend-icon="mdi-card-account-details"
               title="Companies"
@@ -74,6 +80,10 @@ export default defineComponent({
               router
               to="/brands"
             ></v-list-item>
+          </v-list>
+          <v-list>
+            <v-list-subheader>Whisky</v-list-subheader>
+
             <v-list-item
               prepend-icon="mdi-factory"
               title="Distilleries"
@@ -126,7 +136,12 @@ export default defineComponent({
         >
           <v-list-item-title>Dashboard</v-list-item-title>
         </v-list-item>
-        <v-list-item prepend-icon="mdi-card-account-details" router to="/companies" @click="drawer = false">
+        <v-list-item
+          prepend-icon="mdi-card-account-details"
+          router
+          to="/companies"
+          @click="drawer = false"
+        >
           <v-list-item-title>Companies</v-list-item-title>
         </v-list-item>
         <v-list-item prepend-icon="mdi-watermark" router to="/brands" @click="drawer = false">

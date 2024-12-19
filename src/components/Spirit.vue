@@ -1,23 +1,23 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
-import type { PropType } from 'vue';
-import { useAccessTokenStore } from '@/stores/accessTokenStore';
-import SpiritForm from './SpiritForm.vue';
-import DistilleryLink from './DistilleryLink.vue';
+import { defineComponent, ref, computed } from 'vue'
+import type { PropType } from 'vue'
+import { useAccessTokenStore } from '@/stores/accessTokenStore'
+import SpiritForm from './SpiritForm.vue'
+import DistilleryLink from './DistilleryLink.vue'
 
 // Export the interface
 export interface SpiritInterface {
-  name: string;
-  description: string;
-  image: string;
-  rating: number;
-  id: number;
-  distilleries: any[];
-  spirit_type: any;
-  spirit_style: any;
-  ppm: number;
-  company: any;
-  brand: any;
+  name: string
+  description: string
+  image: string
+  rating: number
+  id: number
+  distilleries: any[]
+  spirit_type: any
+  spirit_style: any
+  ppm: number
+  company: any
+  brand: any
 }
 
 export default defineComponent({
@@ -33,14 +33,14 @@ export default defineComponent({
     DistilleryLink,
   },
   setup(props) {
-    const editedSpirit = ref({ ...props.spirit });
-    const accessTokenStore = useAccessTokenStore();
+    const editedSpirit = ref({ ...props.spirit })
+    const accessTokenStore = useAccessTokenStore()
 
-    const endpoint = computed(() => `${import.meta.env.VITE_API_URL}/spirits/${props.spirit.id}`);
+    const endpoint = computed(() => `${import.meta.env.VITE_API_URL}/spirits/${props.spirit.id}`)
 
     const spiritLink = computed(() => {
-      return `/Drinks/#/spirits/${props.spirit.id}`;
-    });
+      return `/Drinks/#/spirits/${props.spirit.id}`
+    })
 
     const saveChanges = async ({ data, endpoint }: { data: object; endpoint: string }) => {
       try {
@@ -51,30 +51,29 @@ export default defineComponent({
             Authorization: `Bearer ${accessTokenStore.accessToken}`,
           },
           body: JSON.stringify(data),
-        });
+        })
 
         if (!response.ok) {
-          throw new Error(`Error: ${response.status} - ${response.statusText}`);
+          throw new Error(`Error: ${response.status} - ${response.statusText}`)
         }
 
-        const updatedSpirit = await response.json();
-        editedSpirit.value = updatedSpirit;
-        window.location.reload();
+        const updatedSpirit = await response.json()
+        editedSpirit.value = updatedSpirit
+        window.location.reload()
       } catch (error) {
-        console.error('Error saving spirit:', error);
+        console.error('Error saving spirit:', error)
       }
-    };
+    }
 
     return {
       editedSpirit,
       saveChanges,
       endpoint,
-      spiritLink
-    };
+      spiritLink,
+    }
   },
-});
+})
 </script>
-
 
 <template>
   <v-card>
@@ -130,10 +129,14 @@ export default defineComponent({
       </div>
 
       <div class="py-1">
-        <p>Brand: {{  spirit.brand?.name }}</p>
+        <p>Brand: {{ spirit.brand?.name }}</p>
       </div>
 
-      <DistilleryLink  v-for="distillery in spirit.distilleries" :key="distillery.id" :distillery="distillery" />
+      <DistilleryLink
+        v-for="distillery in spirit.distilleries"
+        :key="distillery.id"
+        :distillery="distillery"
+      />
 
       <div class="py-1">
         <v-chip
@@ -145,7 +148,7 @@ export default defineComponent({
         >
           <v-icon :icon="spirit.spirit_type.icon" start></v-icon>
           {{ spirit.spirit_type.name }}
-          </v-chip>
+        </v-chip>
 
         <v-chip
           v-if="spirit.spirit_style"
@@ -158,13 +161,7 @@ export default defineComponent({
           {{ spirit.spirit_style.name }}
         </v-chip>
 
-        <v-chip
-          color="#8c4f00"
-          size="small"
-          class="mt-2"
-          label
-          v-if="spirit.ppm"
-        >
+        <v-chip color="#8c4f00" size="small" class="mt-2" label v-if="spirit.ppm">
           <v-icon icon="mdi mdi-smoke" start></v-icon>
           {{ spirit.ppm }}
         </v-chip>

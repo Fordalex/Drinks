@@ -21,7 +21,7 @@ export default defineComponent({
         .catch((error) => {
           console.error('Error fetching access token:', error)
         })
-      }
+    }
   },
 })
 </script>
