@@ -137,7 +137,7 @@ export default defineComponent({
 
         <v-chip
           class="mb-2 mr-2"
-          :color="spirit.spirit_type.colour"
+          :color="spirit.spirit_style.colour"
           size="small"
           label
         >

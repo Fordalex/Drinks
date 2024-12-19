@@ -23,13 +23,8 @@ export default defineComponent({
     const selectedDistillery = ref<Array<any>>([]);
 
     const fetchSpirits = async () => {
-
       const accessTokenStore = useAccessTokenStore()
       const apiUrl = `${import.meta.env.VITE_API_URL}/spirits`
-      if (!accessTokenStore.accessToken) {
-        console.error('No access token available')
-        return
-      }
       const response = await fetch(apiUrl, {
         headers: {
           'Content-Type': 'application/json',

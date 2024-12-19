@@ -27,39 +27,46 @@ export default defineComponent({
   },
   methods: {
     async fetchDistilleries() {
-      try {
-        const passwordStore = useAccessTokenStore()
-        const response = await fetch(
-          `https://api.allorigins.win/raw?url=${encodeURIComponent(
-            `https://api.fordsdevelopment.co.uk/drinks/distilleries?password=${passwordStore.password}`,
-          )}`,
-        )
+      const accessTokenStore = useAccessTokenStore()
+      const apiUrl = `${import.meta.env.VITE_API_URL}/distilleries`
+      const response = await fetch(apiUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessTokenStore.accessToken}`,
+        },
+      })
+
+      if (response.ok) {
         this.distilleries = await response.json()
-        this.pins = this.distilleries
-          .filter((d) => {
-            if (d.lat) {
-              return d
-            }
-          })
-          .map((distillery: any) => ({
-            lat: parseFloat(distillery.lat),
-            lng: parseFloat(distillery.lng),
-            body: `<h4>${distillery.name}</h4>
-                  <ul>
-                    ${distillery.spirits
-                      .map(
-                        (spirit: any) => `
-                      <li>
-                        <a href="/Drinks/#/spirits/${spirit.id}">${spirit.name}</a>
-                      </li>
-                    `,
-                      )
-                      .join('')}
-                  </ul>
-            `,
-          }))
-      } catch (error) {
-        console.error('Error fetching distilleries:', error)
+        this.pins = this.distilleries.filter((d) => {
+          if (d.lat) {
+            return d
+          }
+        }).map((distillery: any) => ({
+          lat: parseFloat(distillery.lat),
+          lng: parseFloat(distillery.lng),
+          body: `<h4>${distillery.name}</h4>
+                <ul>
+                  ${distillery.spirits
+                    .map(
+                      (spirit: any) => `
+                    <li>
+                      <a href="/Drinks/#/spirits/${spirit.id}">${spirit.name}</a>
+                    </li>
+                  `,
+                    )
+                    .join('')}
+                </ul>
+          `
+        }));
+      } else {
+        const responseBody = await response.json()
+        console.error(responseBody.error)
+        if (responseBody.error === 'Access token has expired or is invalid.') {
+          console.log('Access token has expired or is invalid.')
+          accessTokenStore.$reset()
+          accessTokenStore.clearState()
+        }
       }
     },
   },
@@ -74,9 +81,13 @@ export default defineComponent({
     <div v-if="distilleries.length > 0" class="row m-0 g-2 p-2">
       <v-container>
         <v-row>
+          <v-col cols="12">
+            <h1>Distilleries</h1>
+          </v-col>
+
           <v-col
             cols="12"
-            sm="4"
+            sm="3"
             v-for="(distillery, index) in distilleries"
             :key="index"
             :distillery="distillery"
