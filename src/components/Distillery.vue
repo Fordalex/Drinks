@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import DistilleryForm from './DistilleryForm.vue'
+import SpiritLink from './SpiritLink.vue'
 
 export default defineComponent({
   name: 'Distillery',
@@ -12,6 +13,7 @@ export default defineComponent({
   },
   components: {
     DistilleryForm,
+    SpiritLink,
   },
   setup(props) {
     const distilleryLink = computed(() => {
@@ -55,6 +57,12 @@ export default defineComponent({
       <v-card-title>{{ distillery.name }}</v-card-title>
 
       <p>Region: {{ distillery.region?.name }}</p>
+    </v-card-item>
+
+    <v-card-item>
+      <v-card-subtitle>Spirits</v-card-subtitle>
+
+      <SpiritLink v-for="spirit in distillery.spirits" :key="spirit.id" :spirit="spirit" />
     </v-card-item>
 
     <v-card-actions>

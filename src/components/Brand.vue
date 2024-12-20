@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import BrandForm from './BrandForm.vue';
+import SpiritLink from './SpiritLink.vue';
 
 export default defineComponent({
   name: 'Brand',
@@ -12,6 +13,7 @@ export default defineComponent({
   },
   components: {
     BrandForm,
+    SpiritLink,
   },
   setup(props) {
     const brandLink = computed(() => {
@@ -50,11 +52,17 @@ export default defineComponent({
     </template>
 
     <v-card-item>
+      <v-card-subtitle>Company: {{ brand.company?.name }}</v-card-subtitle>
+    </v-card-item>
+
+    <v-card-item>
       <v-card-title>{{ brand.name }}</v-card-title>
     </v-card-item>
 
     <v-card-item>
-      <v-card-subtitle>Company: {{ brand.company?.name }}</v-card-subtitle>
+      <v-card-subtitle>Spirits</v-card-subtitle>
+
+      <SpiritLink v-for="spirit in brand.spirits" :key="spirit.id" :spirit="spirit" />
     </v-card-item>
 
     <v-card-actions>
